@@ -1,6 +1,5 @@
 package com.emm.chambaaltoque.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,16 +7,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -30,9 +31,13 @@ import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
 @Composable
 fun VerifyIdentityScreen(
     modifier: Modifier = Modifier,
-    onScanDniClick: () -> Unit = {},
-    onManualEntryClick: () -> Unit = {},
+    onContinueClick: (dni: String, names: String, paternal: String, maternal: String) -> Unit = { _, _, _, _ -> },
 ) {
+    val dniState = remember { mutableStateOf("") }
+    val namesState = remember { mutableStateOf("") }
+    val paternalState = remember { mutableStateOf("") }
+    val maternalState = remember { mutableStateOf("") }
+
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -40,6 +45,7 @@ fun VerifyIdentityScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -78,9 +84,57 @@ fun VerifyIdentityScreen(
 
             Spacer(Modifier.height(32.dp))
 
-            // Primary CTA: Scan DNI
+            // Manual form fields
+            OutlinedTextField(
+                value = dniState.value,
+                onValueChange = { dniState.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Número de DNI") },
+                singleLine = true
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = namesState.value,
+                onValueChange = { namesState.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Nombres") },
+                singleLine = true
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = paternalState.value,
+                onValueChange = { paternalState.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Apellido Paterno") },
+                singleLine = true
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = maternalState.value,
+                onValueChange = { maternalState.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Apellido Materno") },
+                singleLine = true
+            )
+
+            Spacer(Modifier.height(32.dp))
+
+            // Primary CTA: Continue
             Button(
-                onClick = onScanDniClick,
+                onClick = {
+                    onContinueClick(
+                        dniState.value,
+                        namesState.value,
+                        paternalState.value,
+                        maternalState.value
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -88,34 +142,14 @@ fun VerifyIdentityScreen(
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Filled.CameraAlt,
-                    contentDescription = null
-                )
-                Spacer(Modifier.height(0.dp))
                 Text(
-                    text = "Escanear mi DNI",
+                    text = "Continuar",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
-                    ),
-                    modifier = Modifier
-                        .padding(start = 8.dp)
+                    )
                 )
             }
-
-            Spacer(Modifier.height(16.dp))
-
-            // Secondary text option: Manual entry
-            Text(
-                text = "Ingresar datos manualmente",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold
-                ),
-                modifier = Modifier
-                    .clickable { onManualEntryClick() }
-            )
         }
     }
 }
