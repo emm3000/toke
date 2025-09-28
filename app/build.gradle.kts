@@ -58,7 +58,13 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
-    implementation(platform("io.github.jan-tennert.supabase:bom:3.2.4"))
+    implementation(platform(libs.bom))
+
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.android)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
+    implementation(libs.koin.androidx.compose)
 }
