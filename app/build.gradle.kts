@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 android {
@@ -56,4 +57,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.2.4"))
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client.android)
 }
