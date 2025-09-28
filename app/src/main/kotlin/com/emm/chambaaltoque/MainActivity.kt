@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
-import com.emm.chambaaltoque.screen.WelcomeScreen
+import com.emm.chambaaltoque.navigation.AppNav
 
 class MainActivity : ComponentActivity() {
 
@@ -19,12 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChambaAlToqueTheme(dynamicColor = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    WelcomeScreen(
-                        modifier = Modifier.padding(it),
-                        onNeedJobClick = { /* TODO: navigate to requester flow */ },
-                        onWantWorkClick = { /* TODO: navigate to worker flow */ },
-                        onSignInClick = { /* TODO: navigate to sign-in */ }
-                    )
+                    AppNav(modifier = Modifier.padding(it))
                 }
             }
         }

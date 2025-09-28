@@ -2,6 +2,7 @@ package com.emm.chambaaltoque.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
 fun ChamberoHomeScreen(
     modifier: Modifier = Modifier,
     onFilterClick: () -> Unit = {},
+    onChambaClick: () -> Unit = {},
 ) {
     val tabs = listOf("Mapa", "Lista")
     val selectedTab = remember { mutableIntStateOf(0) }
@@ -66,7 +68,7 @@ fun ChamberoHomeScreen(
 
         when (selectedTab.intValue) {
             0 -> MapTab()
-            1 -> ListTab(onFilterClick = onFilterClick)
+            1 -> ListTab(onFilterClick = onFilterClick, onChambaClick = onChambaClick)
         }
     }
 }
@@ -127,7 +129,7 @@ private data class ChambaCard(
 )
 
 @Composable
-private fun ListTab(onFilterClick: () -> Unit) {
+private fun ListTab(onFilterClick: () -> Unit, onChambaClick: () -> Unit) {
     val items = listOf(
         ChambaCard("Comprar una torta", "S/ 15.00", "A 2.5 km", "Lince -> San Isidro"),
         ChambaCard("Enviar documentos", "S/ 12.00", "A 1.2 km", "Jesús María -> Lince"),
@@ -155,16 +157,18 @@ private fun ListTab(onFilterClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(items) { chamba ->
-                ChambaItemCard(chamba)
+                ChambaItemCard(chamba, onClick = onChambaClick)
             }
         }
     }
 }
 
 @Composable
-private fun ChambaItemCard(chamba: ChambaCard) {
+private fun ChambaItemCard(chamba: ChambaCard, onClick: () -> Unit = {}) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
