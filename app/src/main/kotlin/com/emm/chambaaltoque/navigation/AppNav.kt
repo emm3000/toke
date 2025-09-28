@@ -5,7 +5,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.emm.chambaaltoque.screen.*
+import com.emm.chambaaltoque.screen.ChamberoHomeScreen
+import com.emm.chambaaltoque.screen.ChamberoJobDetailScreen
+import com.emm.chambaaltoque.screen.ChatScreen
+import com.emm.chambaaltoque.screen.JobPostedScreen
+import com.emm.chambaaltoque.screen.LoginScreen
+import com.emm.chambaaltoque.screen.PostJobScreen
+import com.emm.chambaaltoque.screen.RegisterApplicantScreen
+import com.emm.chambaaltoque.screen.RequesterActiveJobsScreen
+import com.emm.chambaaltoque.screen.RequesterHomeScreen
+import com.emm.chambaaltoque.screen.TrackChamberoScreen
+import com.emm.chambaaltoque.screen.WelcomeScreen
 
 object Routes {
     const val WELCOME = "welcome"
@@ -13,12 +23,14 @@ object Routes {
     const val VERIFY_IDENTITY = "verify_identity"
     const val REGISTER_APPLICANT = "register_applicant"
     const val POST_JOB = "post_job"
+    const val REQUESTER_HOME = "requester/home"
+    const val REQUESTER_ACTIVE_JOBS = "requester/active_jobs"
+    const val JOB_POSTED = "job_posted"
     const val CHAMBERO_HOME = "chambero/home"
     const val CHAMBERO_JOB_DETAIL = "chambero/job_detail"
     const val TRACK_CHAMBERO = "track_chambero"
     const val CHAT = "chat"
 }
-
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -32,8 +44,8 @@ fun AppNav(modifier: Modifier = Modifier) {
         composable(Routes.WELCOME) {
             WelcomeScreen(
                 onNeedJobClick = {
-                    // MVP: Ir directo a publicar una chamba (solicitante)
-                    navController.navigate(Routes.POST_JOB)
+                    // Mejor UX: llevar a un Home de solicitante
+                    navController.navigate(Routes.REQUESTER_HOME)
                 },
                 onWantWorkClick = {
                     // Flujo Chambero: Verificación de identidad -> Home
@@ -45,6 +57,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
+        // Login (básico)
         composable(Routes.LOGIN) {
             LoginScreen(
                 onBack = { navController.popBackStack() },
@@ -55,13 +68,47 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Verificación de identidad (MVP manual)
-        composable(Routes.VERIFY_IDENTITY) {
-            VerifyIdentityScreen(
-                onContinueClick = { _, _, _, _ ->
-                    navController.navigate(Routes.CHAMBERO_HOME) {
-                        popUpTo(Routes.VERIFY_IDENTITY) { inclusive = true }
+        // Registro solicitante (disponible para futuro)
+        composable(Routes.REGISTER_APPLICANT) {
+            RegisterApplicantScreen()
+        }
+
+        // Home Solicitante
+        composable(Routes.REQUESTER_HOME) {
+            RequesterHomeScreen(
+                onPostJobClick = { navController.navigate(Routes.POST_JOB) },
+                onActiveJobsClick = { navController.navigate(Routes.REQUESTER_ACTIVE_JOBS) }
+            )
+        }
+
+        // Publicar chamba (solicitante)
+        composable(Routes.POST_JOB) {
+            PostJobScreen(
+                onAddPhotoClick = { /* no-op */ },
+                onPublishClick = {
+                    // Tras publicar, confirmación y CTAs
+                    navController.navigate(Routes.JOB_POSTED)
+                }
+            )
+        }
+
+        // Confirmación de publicación
+        composable(Routes.JOB_POSTED) {
+            JobPostedScreen(
+                onGoToTracking = { navController.navigate(Routes.TRACK_CHAMBERO) },
+                onGoHome = {
+                    navController.navigate(Routes.REQUESTER_HOME) {
+                        popUpTo(Routes.WELCOME) { inclusive = false }
                     }
+                }
+            )
+        }
+
+        // Listado de chambas activas del solicitante
+        composable(Routes.REQUESTER_ACTIVE_JOBS) {
+            RequesterActiveJobsScreen(
+                onJobClick = { _ ->
+                    navController.navigate(Routes.TRACK_CHAMBERO)
                 }
             )
         }
@@ -83,6 +130,24 @@ fun AppNav(modifier: Modifier = Modifier) {
                     // Acepta -> Tracking
                     navController.navigate(Routes.TRACK_CHAMBERO)
                 }
+            )
+        }
+
+        // Tracking Chambero
+        composable(Routes.TRACK_CHAMBERO) {
+            TrackChamberoScreen(
+                onCallClick = { /* no-op */ },
+                onChatClick = {
+                    navController.navigate(Routes.CHAT)
+                }
+            )
+        }
+
+        // Chat
+        composable(Routes.CHAT) {
+            ChatScreen(
+                onSend = { /* no-op */ },
+                onQuickReplyClick = { /* no-op */ }
             )
         }
     }
