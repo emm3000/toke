@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.login.presentation
+package com.emm.chambaaltoque.shared
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

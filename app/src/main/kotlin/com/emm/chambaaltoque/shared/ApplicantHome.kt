@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.login.presentation
+package com.emm.chambaaltoque.shared
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
