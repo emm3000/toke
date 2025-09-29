@@ -1,6 +1,6 @@
 @file:OptIn(FlowPreview::class)
 
-package com.emm.chambaaltoque.login.presentation
+package com.emm.chambaaltoque.auth.presentation.login.applicant
 
 import android.util.Patterns
 import androidx.compose.runtime.getValue
@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.emm.chambaaltoque.login.domain.AuthRepository
+import com.emm.chambaaltoque.auth.domain.AuthRepository
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce

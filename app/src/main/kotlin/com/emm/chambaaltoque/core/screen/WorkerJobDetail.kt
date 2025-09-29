@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun ChamberoJobDetailScreen(
+fun WorkerJobDetailScreen(
     modifier: Modifier = Modifier,
     title: String = "Comprar una torta",
     description: String = "Debes comprar una torta de chocolate en la pastelería de Lince y llevarla a San Isidro antes de las 5pm. La caja está pagada, solo recoger y entregar con cuidado.",
@@ -259,7 +259,7 @@ private fun RatingStars(rating: Float, max: Int = 5) {
 @Composable
 private fun ChamberoJobDetailLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ChamberoJobDetailScreen()
+        WorkerJobDetailScreen()
     }
 }
 
@@ -267,6 +267,6 @@ private fun ChamberoJobDetailLightPreview() {
 @Composable
 private fun ChamberoJobDetailDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        ChamberoJobDetailScreen()
+        WorkerJobDetailScreen()
     }
 }

@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.login.presentation
+package com.emm.chambaaltoque.auth.presentation.register.aplicant
 
 data class ApplicantRegisterState(
     val phone: String = "",

@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.login.presentation
+package com.emm.chambaaltoque.auth.presentation.login.applicant
 
 data class LoginApplicantState(
     val email: String = "",

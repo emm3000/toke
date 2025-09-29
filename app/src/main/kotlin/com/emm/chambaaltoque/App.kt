@@ -2,7 +2,7 @@ package com.emm.chambaaltoque
 
 import android.app.Application
 import com.emm.chambaaltoque.core.di.coreModule
-import com.emm.chambaaltoque.login.di.loginModule
+import com.emm.chambaaltoque.core.di.loginModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

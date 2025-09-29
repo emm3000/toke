@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScreen
+import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantViewModel
+import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
+import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.core.screen.WelcomeScreen
-import com.emm.chambaaltoque.login.presentation.ApplicantRegisterScreen
-import com.emm.chambaaltoque.login.presentation.ApplicantRegisterViewModel
-import com.emm.chambaaltoque.login.presentation.LoginApplicantScreen
-import com.emm.chambaaltoque.login.presentation.LoginApplicantViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

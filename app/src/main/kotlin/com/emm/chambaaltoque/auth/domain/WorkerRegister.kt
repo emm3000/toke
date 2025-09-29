@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.login.domain
+package com.emm.chambaaltoque.auth.domain
 
 class WorkerRegister(
     val name: String,

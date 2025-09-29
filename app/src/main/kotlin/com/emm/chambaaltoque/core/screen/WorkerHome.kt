@@ -41,10 +41,10 @@ import androidx.compose.ui.unit.dp
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun ChamberoHomeScreen(
+fun WorkerHomeScreen(
     modifier: Modifier = Modifier,
     onFilterClick: () -> Unit = {},
-    onChambaClick: () -> Unit = {},
+    onWorkClick: () -> Unit = {},
 ) {
     val tabs = listOf("Mapa", "Lista")
     val selectedTab = remember { mutableIntStateOf(0) }
@@ -68,7 +68,7 @@ fun ChamberoHomeScreen(
 
         when (selectedTab.intValue) {
             0 -> MapTab()
-            1 -> ListTab(onFilterClick = onFilterClick, onChambaClick = onChambaClick)
+            1 -> ListTab(onFilterClick = onFilterClick, onChambaClick = onWorkClick)
         }
     }
 }
@@ -214,7 +214,7 @@ private fun ChambaItemCard(chamba: ChambaCard, onClick: () -> Unit = {}) {
 @Composable
 private fun ChamberoHomeMapPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ChamberoHomeScreen()
+        WorkerHomeScreen()
     }
 }
 
@@ -222,6 +222,6 @@ private fun ChamberoHomeMapPreview() {
 @Composable
 private fun ChamberoHomeDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        ChamberoHomeScreen()
+        WorkerHomeScreen()
     }
 }
