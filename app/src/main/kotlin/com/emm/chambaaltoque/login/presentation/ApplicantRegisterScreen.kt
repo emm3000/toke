@@ -42,8 +42,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
@@ -242,43 +240,9 @@ fun ApplicantRegisterScreen(
         }
 
         if (state.error != null) {
-            ErrorDialog(onAction, state.error)
-        }
-    }
-
-
-}
-
-@Composable
-private fun ErrorDialog(onAction: (ApplicationRegisterAction) -> Unit, error: String) {
-    Dialog(
-        onDismissRequest = { onAction(ApplicationRegisterAction.DismissDialog) },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .padding(24.dp)
-        ) {
-            Text(text = error)
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun DialogPreview() {
-    ChambaAlToqueTheme(
-        darkTheme = false,
-        dynamicColor = false
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
             ErrorDialog(
-                onAction = {},
-                error = NullPointerException().stackTraceToString()
+                onDismissRequest = { onAction(ApplicationRegisterAction.DismissDialog) },
+                error = state.error,
             )
         }
     }

@@ -34,7 +34,7 @@ private fun provideSupabaseClient(
     json: Json,
 ): SupabaseClient {
     return createSupabaseClient(
-        supabaseUrl = context.getString(R.string.supabase_key),
+        supabaseUrl = context.getString(R.string.supabase_url),
         supabaseKey = context.getString(R.string.supabase_key),
     ) {
         defaultSerializer = KotlinXSerializer(json)
