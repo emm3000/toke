@@ -1,6 +1,7 @@
 package com.emm.chambaaltoque.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -56,10 +57,15 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Registro solicitante (disponible para futuro)
         composable(Routes.REGISTER_APPLICANT) {
 
             val vm: ApplicantRegisterViewModel = koinViewModel()
+
+            LaunchedEffect(vm.state.isSuccessful) {
+                if (vm.state.isSuccessful) {
+                    navController.navigate(Routes.REQUESTER_HOME)
+                }
+            }
 
             ApplicantRegisterScreen(
                 state = vm.state,
@@ -67,7 +73,6 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Home Solicitante
         composable(Routes.REQUESTER_HOME) {
             RequesterHomeScreen(
                 onPostJobClick = { navController.navigate(Routes.POST_JOB) },

@@ -8,5 +8,5 @@ data class ApplicantRegisterUiState(
     val isFieldValid: Boolean = false,
     val isSuccessful: Boolean = false,
     val isLoading: Boolean = false,
-    val error: String? = NullPointerException().stackTraceToString(),
+    val error: String? = null,
 )
