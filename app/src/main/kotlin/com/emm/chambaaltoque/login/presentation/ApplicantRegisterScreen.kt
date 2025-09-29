@@ -1,7 +1,9 @@
 package com.emm.chambaaltoque.login.presentation
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -27,8 +30,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,28 +42,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun ApplicantRegisterScreen(
     modifier: Modifier = Modifier,
-    onRequestOtp: (phone: String) -> Unit = {},
-    onGoogleClick: () -> Unit = {},
-    onFacebookClick: () -> Unit = {},
-    onOpenTerms: () -> Unit = {},
-    onRegister: (phone: String, otp: String, fullName: String, email: String?, accepted: Boolean) -> Unit = { _, _, _, _, _ -> },
+    state: ApplicantRegisterUiState = ApplicantRegisterUiState(),
+    onAction: (ApplicationRegisterAction) -> Unit = {},
 ) {
-    val phone = remember { mutableStateOf("") }
-    val otp = remember { mutableStateOf("") }
-    val fullName = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val acceptedTerms = remember { mutableStateOf(false) }
-    val otpRequested = remember { mutableStateOf(false) }
-
-    val isPhoneValid = phone.value.length in 7..12 && phone.value.all { it.isDigit() }
-    val isOtpValid = otp.value.length in 4..8 && otp.value.all { it.isDigit() }
-    val isNameValid = fullName.value.trim().isNotEmpty()
-    val canRegister = acceptedTerms.value && isPhoneValid && isOtpValid && isNameValid
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -76,7 +65,6 @@ fun ApplicantRegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            // Título
             Text(
                 text = "Registro Solicitante",
                 style = MaterialTheme.typography.headlineSmall.copy(
@@ -88,10 +76,9 @@ fun ApplicantRegisterScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            // Celular + OTP
             OutlinedTextField(
-                value = phone.value,
-                onValueChange = { phone.value = it.filter { ch -> ch.isDigit() }.take(12) },
+                value = state.phone,
+                onValueChange = { onAction(ApplicationRegisterAction.PhoneChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -105,8 +92,8 @@ fun ApplicantRegisterScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedTextField(
-                    value = otp.value,
-                    onValueChange = { otp.value = it.filter { ch -> ch.isDigit() }.take(6) },
+                    value = "otp.value",
+                    onValueChange = { },
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -115,14 +102,12 @@ fun ApplicantRegisterScreen(
                 )
                 OutlinedButton(
                     onClick = {
-                        onRequestOtp(phone.value)
-                        otpRequested.value = true
                     },
-                    enabled = isPhoneValid,
+                    enabled = false,
                     shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
-                    Text(if (otpRequested.value) "Reenviar" else "Enviar código")
+                    Text("Enviar código")
                 }
             }
 
@@ -130,8 +115,8 @@ fun ApplicantRegisterScreen(
 
             // Nombre completo
             OutlinedTextField(
-                value = fullName.value,
-                onValueChange = { fullName.value = it },
+                value = state.fullName,
+                onValueChange = { onAction(ApplicationRegisterAction.FullNameChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 label = { Text("Nombre completo") },
@@ -140,10 +125,9 @@ fun ApplicantRegisterScreen(
 
             Spacer(Modifier.height(12.dp))
 
-            // Email opcional
             OutlinedTextField(
-                value = email.value,
-                onValueChange = { email.value = it },
+                value = state.email,
+                onValueChange = { onAction(ApplicationRegisterAction.EmailChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 label = { Text("Email (opcional)") },
@@ -165,7 +149,7 @@ fun ApplicantRegisterScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedButton(
-                    onClick = onGoogleClick,
+                    onClick = {},
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
@@ -180,7 +164,7 @@ fun ApplicantRegisterScreen(
                 }
 
                 OutlinedButton(
-                    onClick = onFacebookClick,
+                    onClick = {},
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
@@ -197,14 +181,13 @@ fun ApplicantRegisterScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            // Aceptación de términos
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
-                    checked = acceptedTerms.value,
-                    onCheckedChange = { acceptedTerms.value = it },
+                    checked = state.acceptedTerms,
+                    onCheckedChange = { onAction(ApplicationRegisterAction.AcceptedTermsChange(it)) },
                     colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary)
                 )
                 Text(
@@ -225,18 +208,11 @@ fun ApplicantRegisterScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // CTA principal
             Button(
                 onClick = {
-                    onRegister(
-                        phone.value,
-                        otp.value,
-                        fullName.value,
-                        email.value.ifBlank { null },
-                        acceptedTerms.value
-                    )
+                    onAction(ApplicationRegisterAction.Register)
                 },
-                enabled = canRegister,
+                enabled = state.isFieldValid && !state.isLoading,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -253,6 +229,58 @@ fun ApplicantRegisterScreen(
                 )
             }
         }
+
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = .5f)),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        if (state.error != null) {
+            ErrorDialog(onAction, state.error)
+        }
+    }
+
+
+}
+
+@Composable
+private fun ErrorDialog(onAction: (ApplicationRegisterAction) -> Unit, error: String) {
+    Dialog(
+        onDismissRequest = { onAction(ApplicationRegisterAction.DismissDialog) },
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(24.dp)
+        ) {
+            Text(text = error)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun DialogPreview() {
+    ChambaAlToqueTheme(
+        darkTheme = false,
+        dynamicColor = false
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            ErrorDialog(
+                onAction = {},
+                error = NullPointerException().stackTraceToString()
+            )
+        }
     }
 }
 
@@ -260,7 +288,11 @@ fun ApplicantRegisterScreen(
 @Composable
 private fun ApplicantRegisterLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ApplicantRegisterScreen()
+        ApplicantRegisterScreen(
+            state = ApplicantRegisterUiState(
+                error = "random name"
+            )
+        )
     }
 }
 
@@ -268,6 +300,10 @@ private fun ApplicantRegisterLightPreview() {
 @Composable
 private fun ApplicantRegisterDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        ApplicantRegisterScreen()
+        ApplicantRegisterScreen(
+            state = ApplicantRegisterUiState(
+                error = "random name"
+            )
+        )
     }
 }

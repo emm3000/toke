@@ -41,7 +41,7 @@ import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 private data class NearbyJob(val id: String, val title: String, val location: String, val pay: String)
 
 @Composable
-fun ChamberoHomeScreen(
+fun WorkerHomeScreen(
     modifier: Modifier = Modifier,
     onFilterClick: () -> Unit = {},
     onOpenMap: () -> Unit = {},
@@ -140,7 +140,7 @@ private fun JobCard(job: NearbyJob, onClick: () -> Unit) {
 @Composable
 private fun ChamberoHomeLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ChamberoHomeScreen()
+        WorkerHomeScreen()
     }
 }
 
@@ -148,6 +148,6 @@ private fun ChamberoHomeLightPreview() {
 @Composable
 private fun ChamberoHomeDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        ChamberoHomeScreen()
+        WorkerHomeScreen()
     }
 }

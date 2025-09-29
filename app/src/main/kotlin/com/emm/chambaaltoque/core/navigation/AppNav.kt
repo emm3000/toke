@@ -11,11 +11,13 @@ import com.emm.chambaaltoque.core.screen.ChatScreen
 import com.emm.chambaaltoque.core.screen.JobPostedScreen
 import com.emm.chambaaltoque.core.screen.LoginScreen
 import com.emm.chambaaltoque.core.screen.PostJobScreen
-import com.emm.chambaaltoque.core.screen.RegisterApplicantScreen
 import com.emm.chambaaltoque.core.screen.RequesterActiveJobsScreen
 import com.emm.chambaaltoque.core.screen.RequesterHomeScreen
 import com.emm.chambaaltoque.core.screen.TrackChamberoScreen
 import com.emm.chambaaltoque.core.screen.WelcomeScreen
+import com.emm.chambaaltoque.login.presentation.ApplicantRegisterScreen
+import com.emm.chambaaltoque.login.presentation.ApplicantRegisterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {
@@ -31,7 +33,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             WelcomeScreen(
                 onNeedJobClick = {
                     // Mejor UX: llevar a un Home de solicitante
-                    navController.navigate(Routes.REQUESTER_HOME)
+                    navController.navigate(Routes.REGISTER_APPLICANT)
                 },
                 onWantWorkClick = {
                     // Flujo Chambero: Verificación de identidad -> Home
@@ -56,7 +58,13 @@ fun AppNav(modifier: Modifier = Modifier) {
 
         // Registro solicitante (disponible para futuro)
         composable(Routes.REGISTER_APPLICANT) {
-            RegisterApplicantScreen()
+
+            val vm: ApplicantRegisterViewModel = koinViewModel()
+
+            ApplicantRegisterScreen(
+                state = vm.state,
+                onAction = vm::onAction
+            )
         }
 
         // Home Solicitante

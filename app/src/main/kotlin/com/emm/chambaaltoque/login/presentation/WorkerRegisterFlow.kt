@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun ChamberoRegisterFlow(
+fun WorkerRegisterFlow(
     modifier: Modifier = Modifier,
     onComplete: () -> Unit = {},
     onBack: () -> Unit = {},
@@ -55,7 +55,7 @@ fun ChamberoRegisterFlow(
     onPickSelfie: () -> Unit = {},
     onRequestOtp: (phone: String) -> Unit = {},
 ) {
-    val step = remember { mutableIntStateOf(0) } // 0..3
+    val step = remember { mutableIntStateOf(1) } // 0..3
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -73,11 +73,11 @@ fun ChamberoRegisterFlow(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(onClick = {
-                    if (step.value == 0) onBack() else step.value -= 1
+                    if (step.intValue == 0) onBack() else step.intValue -= 1
                 }) { Icon(Icons.Filled.ArrowBack, contentDescription = "Atrás") }
 
                 Text(
-                    text = when (step.value) {
+                    text = when (step.intValue) {
                         0 -> "Datos personales"
                         1 -> "Contacto"
                         2 -> "Info. adicional"
@@ -417,7 +417,7 @@ private fun StepAccept(
 @Composable
 private fun ChamberoRegisterFlowLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ChamberoRegisterFlow()
+        WorkerRegisterFlow()
     }
 }
 
@@ -425,6 +425,6 @@ private fun ChamberoRegisterFlowLightPreview() {
 @Composable
 private fun ChamberoRegisterFlowDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        ChamberoRegisterFlow()
+        WorkerRegisterFlow()
     }
 }
