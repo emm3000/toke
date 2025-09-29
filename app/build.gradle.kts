@@ -26,6 +26,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "supabase_url", keystoreProperties["supabaseUrl"] as String)
+        resValue("string", "supabase_key", keystoreProperties["supabaseKey"] as String)
     }
 
     signingConfigs {
@@ -79,6 +82,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(platform(libs.bom))
+    implementation(libs.postgrest.kt)
+    implementation(libs.auth.kt)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.android)
