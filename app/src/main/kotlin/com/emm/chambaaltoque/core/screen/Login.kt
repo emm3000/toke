@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.screen
+package com.emm.chambaaltoque.core.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,23 +11,30 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun RequesterHomeScreen(
+fun LoginScreen(
     modifier: Modifier = Modifier,
-    onPostJobClick: () -> Unit = {},
-    onActiveJobsClick: () -> Unit = {},
+    onBack: () -> Unit = {},
+    onLoggedIn: () -> Unit = {},
 ) {
+
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -40,7 +47,7 @@ fun RequesterHomeScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "Solicitante",
+                text = "Inicia Sesión",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -49,8 +56,30 @@ fun RequesterHomeScreen(
 
             Spacer(Modifier.height(16.dp))
 
+            OutlinedTextField(
+                value = email.value,
+                onValueChange = { email.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                label = { Text("Correo") },
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = password.value,
+                onValueChange = { password.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                label = { Text("Contraseña") },
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(Modifier.height(24.dp))
+
             Button(
-                onClick = onPostJobClick,
+                onClick = onLoggedIn,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -59,27 +88,7 @@ fun RequesterHomeScreen(
                 )
             ) {
                 Text(
-                    text = "Publicar una Chamba",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            Button(
-                onClick = onActiveJobsClick,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary
-                )
-            ) {
-                Text(
-                    text = "Mis Chambas Activas",
+                    text = "Entrar",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
@@ -92,16 +101,16 @@ fun RequesterHomeScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun RequesterHomeLightPreview() {
+private fun LoginLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        RequesterHomeScreen()
+        LoginScreen()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun RequesterHomeDarkPreview() {
+private fun LoginDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        RequesterHomeScreen()
+        LoginScreen()
     }
 }

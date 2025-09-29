@@ -1,21 +1,21 @@
-package com.emm.chambaaltoque.navigation
+package com.emm.chambaaltoque.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.emm.chambaaltoque.screen.ChamberoHomeScreen
-import com.emm.chambaaltoque.screen.ChamberoJobDetailScreen
-import com.emm.chambaaltoque.screen.ChatScreen
-import com.emm.chambaaltoque.screen.JobPostedScreen
-import com.emm.chambaaltoque.screen.LoginScreen
-import com.emm.chambaaltoque.screen.PostJobScreen
-import com.emm.chambaaltoque.screen.RegisterApplicantScreen
-import com.emm.chambaaltoque.screen.RequesterActiveJobsScreen
-import com.emm.chambaaltoque.screen.RequesterHomeScreen
-import com.emm.chambaaltoque.screen.TrackChamberoScreen
-import com.emm.chambaaltoque.screen.WelcomeScreen
+import com.emm.chambaaltoque.core.screen.ChamberoHomeScreen
+import com.emm.chambaaltoque.core.screen.ChamberoJobDetailScreen
+import com.emm.chambaaltoque.core.screen.ChatScreen
+import com.emm.chambaaltoque.core.screen.JobPostedScreen
+import com.emm.chambaaltoque.core.screen.LoginScreen
+import com.emm.chambaaltoque.core.screen.PostJobScreen
+import com.emm.chambaaltoque.core.screen.RegisterApplicantScreen
+import com.emm.chambaaltoque.core.screen.RequesterActiveJobsScreen
+import com.emm.chambaaltoque.core.screen.RequesterHomeScreen
+import com.emm.chambaaltoque.core.screen.TrackChamberoScreen
+import com.emm.chambaaltoque.core.screen.WelcomeScreen
 
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {

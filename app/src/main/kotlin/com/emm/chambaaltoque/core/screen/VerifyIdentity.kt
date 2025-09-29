@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.screen
+package com.emm.chambaaltoque.core.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun VerifyIdentityScreen(

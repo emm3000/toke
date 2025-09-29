@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.screen
+package com.emm.chambaaltoque.core.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,30 +11,23 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun LoginScreen(
+fun JobPostedScreen(
     modifier: Modifier = Modifier,
-    onBack: () -> Unit = {},
-    onLoggedIn: () -> Unit = {},
+    onGoToTracking: () -> Unit = {},
+    onGoHome: () -> Unit = {},
 ) {
-
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -47,39 +40,22 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "Inicia Sesión",
+                text = "¡Chamba publicada!",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
             )
-
-            Spacer(Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = email.value,
-                onValueChange = { email.value = it },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                label = { Text("Correo") },
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                label = { Text("Contraseña") },
-                shape = RoundedCornerShape(12.dp)
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = "Un chambero tomará tu solicitud pronto.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(Modifier.height(24.dp))
 
             Button(
-                onClick = onLoggedIn,
+                onClick = onGoToTracking,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -88,7 +64,27 @@ fun LoginScreen(
                 )
             ) {
                 Text(
-                    text = "Entrar",
+                    text = "Ver Tracking",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            Button(
+                onClick = onGoHome,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                )
+            ) {
+                Text(
+                    text = "Ir al Inicio",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
@@ -101,16 +97,16 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginLightPreview() {
+private fun JobPostedLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        LoginScreen()
+        JobPostedScreen()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginDarkPreview() {
+private fun JobPostedDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        LoginScreen()
+        JobPostedScreen()
     }
 }
