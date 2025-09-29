@@ -11,7 +11,7 @@ import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScr
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
-import com.emm.chambaaltoque.core.screen.WelcomeScreen
+import com.emm.chambaaltoque.welcome.WelcomeScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

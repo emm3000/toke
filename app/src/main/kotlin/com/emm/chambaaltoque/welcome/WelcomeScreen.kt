@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.screen
+package com.emm.chambaaltoque.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
