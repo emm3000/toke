@@ -54,8 +54,8 @@ import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 @Composable
 fun LoginApplicantScreen(
     modifier: Modifier = Modifier,
-    state: LoginApplicantUiState = LoginApplicantUiState(),
-    onAction: (LoginApplicantEvent) -> Unit = {},
+    state: LoginApplicantState = LoginApplicantState(),
+    onAction: (LoginApplicantAction) -> Unit = {},
 ) {
 
     val showPassword = remember { mutableStateOf(false) }
@@ -112,7 +112,7 @@ fun LoginApplicantScreen(
             // Email
             OutlinedTextField(
                 value = state.email,
-                onValueChange = { onAction(LoginApplicantEvent.EmailChanged(it)) },
+                onValueChange = { onAction(LoginApplicantAction.EmailChanged(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -132,7 +132,7 @@ fun LoginApplicantScreen(
             // Password
             OutlinedTextField(
                 value = state.password,
-                onValueChange = { onAction(LoginApplicantEvent.PasswordChanged(it)) },
+                onValueChange = { onAction(LoginApplicantAction.PasswordChanged(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -164,7 +164,7 @@ fun LoginApplicantScreen(
             Button(
                 onClick = {
                     keyboardController?.hide()
-                    onAction(LoginApplicantEvent.Login)
+                    onAction(LoginApplicantAction.Login)
                 },
                 enabled = state.isValidFields && !state.isLoading,
                 modifier = Modifier.fillMaxWidth(),
@@ -255,7 +255,7 @@ fun LoginApplicantScreen(
 
         if (state.error != null) {
             ErrorDialog(
-                onDismissRequest = { onAction(LoginApplicantEvent.DismissError) },
+                onDismissRequest = { onAction(LoginApplicantAction.DismissError) },
                 error = state.error,
             )
         }
@@ -267,7 +267,7 @@ fun LoginApplicantScreen(
 private fun LoginApplicantLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
         LoginApplicantScreen(
-            state = LoginApplicantUiState(isLoading = true)
+            state = LoginApplicantState(isLoading = true)
         )
     }
 }

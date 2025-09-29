@@ -1,6 +1,6 @@
 package com.emm.chambaaltoque.login.presentation
 
-data class ApplicantRegisterUiState(
+data class ApplicantRegisterState(
     val phone: String = "",
     val fullName: String = "",
     val email: String = "",

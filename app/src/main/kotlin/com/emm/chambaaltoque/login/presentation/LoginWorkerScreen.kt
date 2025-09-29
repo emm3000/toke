@@ -37,13 +37,13 @@ import androidx.compose.ui.unit.sp
 import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun LoginChamberoScreen(
+fun LoginWorkerScreen(
     modifier: Modifier = Modifier,
     onRequestOtp: (phone: String) -> Unit = {},
     onLoginWithPhone: (phone: String, otp: String) -> Unit = { _, _ -> },
     onLoginWithEmail: (email: String, password: String) -> Unit = { _, _ -> },
 ) {
-    val selectedTab = remember { mutableIntStateOf(0) } // 0: Celular + OTP, 1: Email + Password
+    val selectedTab = remember { mutableIntStateOf(0) }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -202,16 +202,16 @@ private fun EmailPasswordPane(
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginChamberoLightPreview() {
+private fun LoginWorkerLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        LoginChamberoScreen()
+        LoginWorkerScreen()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginChamberoDarkPreview() {
+private fun LoginWorkerDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        LoginChamberoScreen()
+        LoginWorkerScreen()
     }
 }

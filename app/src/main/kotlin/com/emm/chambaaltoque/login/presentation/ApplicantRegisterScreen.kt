@@ -47,7 +47,7 @@ import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
 @Composable
 fun ApplicantRegisterScreen(
     modifier: Modifier = Modifier,
-    state: ApplicantRegisterUiState = ApplicantRegisterUiState(),
+    state: ApplicantRegisterState = ApplicantRegisterState(),
     onAction: (ApplicationRegisterAction) -> Unit = {},
 ) {
 
@@ -253,7 +253,7 @@ fun ApplicantRegisterScreen(
 private fun ApplicantRegisterLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
         ApplicantRegisterScreen(
-            state = ApplicantRegisterUiState(
+            state = ApplicantRegisterState(
                 error = "random name"
             )
         )
@@ -265,7 +265,7 @@ private fun ApplicantRegisterLightPreview() {
 private fun ApplicantRegisterDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
         ApplicantRegisterScreen(
-            state = ApplicantRegisterUiState(
+            state = ApplicantRegisterState(
                 error = "random name"
             )
         )

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class ApplicantRegisterViewModel(private val repository: AuthRepository) : ViewModel() {
 
-    var state by mutableStateOf(ApplicantRegisterUiState())
+    var state by mutableStateOf(ApplicantRegisterState())
         private set
 
     init {

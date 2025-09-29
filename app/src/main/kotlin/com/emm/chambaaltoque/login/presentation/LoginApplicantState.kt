@@ -1,6 +1,6 @@
 package com.emm.chambaaltoque.login.presentation
 
-data class LoginApplicantUiState(
+data class LoginApplicantState(
     val email: String = "",
     val password: String = "",
     val isValidFields: Boolean = false,
