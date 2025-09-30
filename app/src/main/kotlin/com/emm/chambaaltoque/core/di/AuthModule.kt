@@ -9,7 +9,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val loginModule = module {
+val authModule = module {
 
     factoryOf(::AuthRepositoryImpl) bind AuthRepository::class
 

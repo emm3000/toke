@@ -1,8 +1,8 @@
 package com.emm.chambaaltoque
 
 import android.app.Application
+import com.emm.chambaaltoque.core.di.allModules
 import com.emm.chambaaltoque.core.di.coreModule
-import com.emm.chambaaltoque.core.di.loginModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -14,7 +14,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 coreModule,
-                loginModule,
+                *allModules,
             )
         }
     }

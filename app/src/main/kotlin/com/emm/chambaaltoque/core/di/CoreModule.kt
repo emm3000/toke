@@ -7,6 +7,7 @@ import com.emm.chambaaltoque.core.RealDispatcherProvider
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.serializer.KotlinXSerializer
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
@@ -29,6 +30,11 @@ val coreModule: Module = module {
     singleOf(::RealDispatcherProvider) bind DispatcherProvider::class
 }
 
+val allModules: Array<out Module> = arrayOf(
+    authModule,
+    postJobModule,
+)
+
 private fun provideSupabaseClient(
     context: Context,
     json: Json,
@@ -39,5 +45,6 @@ private fun provideSupabaseClient(
     ) {
         defaultSerializer = KotlinXSerializer(json)
         install(Auth)
+        install(Postgrest)
     }
 }

@@ -11,4 +11,6 @@ interface AuthRepository {
         name: String,
         email: String,
     )
+
+    suspend fun currentUserId(): String
 }

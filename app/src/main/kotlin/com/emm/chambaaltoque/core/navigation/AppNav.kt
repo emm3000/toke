@@ -1,9 +1,14 @@
 package com.emm.chambaaltoque.core.navigation
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,9 +18,18 @@ import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantVie
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
+import com.emm.chambaaltoque.home.ApplicantHomeRoute
+import com.emm.chambaaltoque.home.ApplicantHomeScreen
+import com.emm.chambaaltoque.postjob.presentation.PostJobRoute
+import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
+import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
 import com.emm.chambaaltoque.welcome.WelcomeRoute
 import com.emm.chambaaltoque.welcome.WelcomeScreen
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.status.SessionStatus
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {
@@ -28,17 +42,36 @@ fun AppNav(modifier: Modifier = Modifier) {
     ) {
 
         composable<WelcomeRoute> {
-            WelcomeScreen(
-                onNeedJobClick = {
-                    navController.navigate(ApplicationRegisterRoute)
-                },
-                onWantWorkClick = {
-                    navController.navigate(Routes.VERIFY_IDENTITY)
-                },
-                onSignInClick = {
-                    navController.navigate(LoginApplicantRoute)
+            val supabaseClient: SupabaseClient = koinInject<SupabaseClient>()
+
+            val status: SessionStatus by supabaseClient.auth.sessionStatus.collectAsStateWithLifecycle()
+
+            LaunchedEffect(status) {
+                if (status is SessionStatus.Authenticated) {
+                    navController.navigate(ApplicantHomeRoute)
                 }
-            )
+            }
+
+            if (status is SessionStatus.Initializing) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                WelcomeScreen(
+                    onNeedJobClick = {
+                        navController.navigate(ApplicationRegisterRoute)
+                    },
+                    onWantWorkClick = {
+                        navController.navigate(Routes.VERIFY_IDENTITY)
+                    },
+                    onSignInClick = {
+                        navController.navigate(LoginApplicantRoute)
+                    }
+                )
+            }
         }
 
         composable<LoginApplicantRoute> {
@@ -46,7 +79,7 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    navController.navigate(Routes.REQUESTER_HOME)
+                    navController.navigate(ApplicantHomeRoute)
                 }
             }
 
@@ -56,8 +89,28 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        composable(Routes.REQUESTER_HOME) {
-            Text("gaaa")
+        composable<ApplicantHomeRoute> {
+            ApplicantHomeScreen(
+                onPublishClick = {
+                    navController.navigate(PostJobRoute)
+                },
+            )
+        }
+
+        composable<PostJobRoute> {
+            val vm: PostJobViewModel = koinViewModel()
+
+            LaunchedEffect(vm.state.isSuccessful) {
+                if (vm.state.isSuccessful) {
+                    navController.popBackStack()
+                }
+            }
+
+            PostJobScreen(
+                state = vm.state,
+                onAction = vm::onAction,
+                onCancel = navController::popBackStack,
+            )
         }
 
         composable<ApplicationRegisterRoute> {

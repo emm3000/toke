@@ -59,4 +59,8 @@ class AuthRepositoryImpl(
             }
         }
     }
+
+    override suspend fun currentUserId(): String {
+        return client.auth.currentUserOrNull()?.id ?: throw IllegalStateException("User not logged in")
+    }
 }
