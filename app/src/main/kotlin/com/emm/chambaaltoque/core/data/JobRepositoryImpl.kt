@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class JobRepositoryImpl(private val client: SupabaseClient) : JobRepository {
 
@@ -34,7 +34,7 @@ class JobRepositoryImpl(private val client: SupabaseClient) : JobRepository {
         description = job.description,
         budget = job.budget,
         status = JobStatus.Companion.fromKey(job.status),
-        createdAt = LocalDateTime.parse(job.createdAt)
+        createdAt = ZonedDateTime.parse(job.createdAt).toLocalDateTime()
     )
 
     override suspend fun createJob(job: CreateJob) = withContext(Dispatchers.IO) {

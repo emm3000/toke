@@ -41,9 +41,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.emm.chambaaltoque.core.domain.Job
+import com.emm.chambaaltoque.core.domain.JobStatus
 import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
-
-private data class QuickJob(val id: String, val title: String, val status: String)
+import java.time.LocalDateTime
 
 @Composable
 fun ApplicantHomeScreen(
@@ -51,16 +52,8 @@ fun ApplicantHomeScreen(
     onPublishClick: () -> Unit = {},
     onOpenJob: (String) -> Unit = {},
     onOpenRatings: () -> Unit = {},
+    state: ApplicantHomeState = ApplicantHomeState(),
 ) {
-    val pending = listOf(
-        QuickJob("1", "Enviar documentos a Lince", "Pendiente"),
-    )
-    val inProgress = listOf(
-        QuickJob("2", "Mudanza pequeña", "En curso"),
-    )
-    val done = listOf(
-        QuickJob("3", "Compra en supermercado", "Completada"),
-    )
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -70,7 +63,6 @@ fun ApplicantHomeScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            // Decorative header with CTA
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -145,7 +137,7 @@ fun ApplicantHomeScreen(
                         Spacer(Modifier.size(6.dp))
                         Text("Calificaciones")
                     }
-                    OutlinedButton(onClick = { /* TODO: historial */ }, shape = RoundedCornerShape(12.dp)) {
+                    OutlinedButton(onClick = {  }, shape = RoundedCornerShape(12.dp)) {
                         Icon(Icons.Filled.History, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.size(6.dp))
                         Text("Historial")
@@ -164,17 +156,17 @@ fun ApplicantHomeScreen(
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                if (pending.isNotEmpty()) {
-                    item { SectionTitle("Pendientes • ${pending.size}") }
-                    items(pending, key = QuickJob::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
+                if (state.pendingJobs.isNotEmpty()) {
+                    item { SectionTitle("Pendientes • ${state.pendingJobs.size}") }
+                    items(state.pendingJobs, key = Job::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
                 }
-                if (inProgress.isNotEmpty()) {
-                    item { SectionTitle("En curso • ${inProgress.size}") }
-                    items(inProgress, key = QuickJob::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
+                if (state.inProgressJobs.isNotEmpty()) {
+                    item { SectionTitle("En curso • ${state.inProgressJobs.size}") }
+                    items(state.inProgressJobs, key = Job::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
                 }
-                if (done.isNotEmpty()) {
-                    item { SectionTitle("Completadas • ${done.size}") }
-                    items(done, key = QuickJob::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
+                if (state.doneJobs.isNotEmpty()) {
+                    item { SectionTitle("Completadas • ${state.doneJobs.size}") }
+                    items(state.doneJobs, key = Job::id) { job -> QuickJobCard(job) { onOpenJob(job.id) } }
                 }
 
                 item { Spacer(Modifier.height(4.dp)) }
@@ -201,7 +193,7 @@ private fun SectionTitle(text: String) {
 }
 
 @Composable
-private fun QuickJobCard(job: QuickJob, onClick: () -> Unit) {
+private fun QuickJobCard(job: Job, onClick: () -> Unit) {
     Card(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
@@ -236,10 +228,11 @@ private fun QuickJobCard(job: QuickJob, onClick: () -> Unit) {
 }
 
 @Composable
-private fun StatusPill(status: String) {
-    val (bg, fg) = when (status.lowercase()) {
-        "pendiente" -> Color(0xFFFFE7D6) to Color(0xFF9C4A00)
-        "en curso" -> Color(0xFFD6F5FF) to Color(0xFF004B6B)
+private fun StatusPill(status: JobStatus) {
+    val (bg, fg) = when (status) {
+        JobStatus.Pending -> Color(0xFFFFE7D6) to Color(0xFF9C4A00)
+        JobStatus.InProgress -> Color(0xFFD6F5FF) to Color(0xFF004B6B)
+        JobStatus.Completed -> Color(0xFFDFF7DF) to Color(0xFF1B5E20)
         else -> Color(0xFFDFF7DF) to Color(0xFF1B5E20)
     }
     Row(
@@ -254,7 +247,7 @@ private fun StatusPill(status: String) {
                 .background(fg, CircleShape)
         )
         Spacer(Modifier.size(6.dp))
-        Text(text = status, color = fg, style = MaterialTheme.typography.labelMedium)
+        Text(text = status.key, color = fg, style = MaterialTheme.typography.labelMedium)
     }
 }
 
@@ -262,7 +255,26 @@ private fun StatusPill(status: String) {
 @Composable
 private fun ApplicantHomeLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        ApplicantHomeScreen()
+        ApplicantHomeScreen(
+            state = ApplicantHomeState(
+                pendingJobs = listOf(
+                    Job(
+                        id = "1",
+                        requesterId = "potenti",
+                        categoryId = "habitant",
+                        title = "interdum",
+                        description = "oratio",
+                        budget = 2.3,
+                        status = JobStatus.Pending,
+                        createdAt = LocalDateTime.now(),
+                    )
+                ),
+                inProgressJobs = listOf(),
+                doneJobs = listOf(),
+                isLoading = false,
+                isEmpty = false,
+            )
+        )
     }
 }
 

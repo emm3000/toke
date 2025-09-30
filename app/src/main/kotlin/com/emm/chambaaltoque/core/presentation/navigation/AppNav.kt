@@ -20,6 +20,8 @@ import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegist
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeRoute
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeScreen
+import com.emm.chambaaltoque.home.presentation.ApplicantHomeState
+import com.emm.chambaaltoque.home.presentation.ApplicantHomeViewModel
 import com.emm.chambaaltoque.postjob.presentation.PostJobRoute
 import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
@@ -90,10 +92,15 @@ fun AppNav(modifier: Modifier = Modifier) {
         }
 
         composable<ApplicantHomeRoute> {
+            val vm: ApplicantHomeViewModel = koinViewModel()
+
+            val state: ApplicantHomeState by vm.state.collectAsStateWithLifecycle()
+
             ApplicantHomeScreen(
                 onPublishClick = {
                     navController.navigate(PostJobRoute)
                 },
+                state = state,
             )
         }
 

@@ -11,14 +11,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
-data class ApplicantHomeState(
-    val pendingJobs: List<Job> = emptyList(),
-    val inProgressJobs: List<Job> = emptyList(),
-    val doneJobs: List<Job> = emptyList(),
-    val isLoading: Boolean = false,
-    val isEmpty: Boolean = false,
-)
-
 class ApplicantHomeViewModel(
     jobRepository: JobRepository,
 ) : ViewModel() {
