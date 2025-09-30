@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.screen
+package com.emm.chambaaltoque.core.presentation.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -35,7 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun WorkerJobDetailScreen(

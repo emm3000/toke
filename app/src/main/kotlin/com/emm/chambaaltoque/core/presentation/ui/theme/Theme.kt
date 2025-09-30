@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.ui.theme
+package com.emm.chambaaltoque.core.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

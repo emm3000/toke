@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared
+package com.emm.chambaaltoque.core
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

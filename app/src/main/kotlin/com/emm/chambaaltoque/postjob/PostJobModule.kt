@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.di
+package com.emm.chambaaltoque.postjob
 
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
 import org.koin.core.module.dsl.viewModelOf

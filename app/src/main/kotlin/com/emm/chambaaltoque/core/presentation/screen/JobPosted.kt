@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.screen
+package com.emm.chambaaltoque.core.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,13 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun RequesterHomeScreen(
+fun JobPostedScreen(
     modifier: Modifier = Modifier,
-    onPostJobClick: () -> Unit = {},
-    onActiveJobsClick: () -> Unit = {},
+    onGoToTracking: () -> Unit = {},
+    onGoHome: () -> Unit = {},
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -40,17 +40,22 @@ fun RequesterHomeScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "Solicitante",
+                text = "¡Chamba publicada!",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
             )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = "Un chambero tomará tu solicitud pronto.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
 
             Button(
-                onClick = onPostJobClick,
+                onClick = onGoToTracking,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -59,7 +64,7 @@ fun RequesterHomeScreen(
                 )
             ) {
                 Text(
-                    text = "Publicar una Chamba",
+                    text = "Ver Tracking",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
@@ -70,7 +75,7 @@ fun RequesterHomeScreen(
             Spacer(Modifier.height(12.dp))
 
             Button(
-                onClick = onActiveJobsClick,
+                onClick = onGoHome,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -79,7 +84,7 @@ fun RequesterHomeScreen(
                 )
             ) {
                 Text(
-                    text = "Mis Chambas Activas",
+                    text = "Ir al Inicio",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold
@@ -92,16 +97,16 @@ fun RequesterHomeScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun RequesterHomeLightPreview() {
+private fun JobPostedLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        RequesterHomeScreen()
+        JobPostedScreen()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun RequesterHomeDarkPreview() {
+private fun JobPostedDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        RequesterHomeScreen()
+        JobPostedScreen()
     }
 }

@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.screen
+package com.emm.chambaaltoque.core.presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun CompletionRatingDialog(

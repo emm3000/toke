@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.screen
+package com.emm.chambaaltoque.core.presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 private data class ActiveJob(val id: String, val title: String, val status: String)
 

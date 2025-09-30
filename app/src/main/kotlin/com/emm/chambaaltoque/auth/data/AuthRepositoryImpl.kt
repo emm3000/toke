@@ -2,7 +2,7 @@ package com.emm.chambaaltoque.auth.data
 
 import com.emm.chambaaltoque.auth.domain.AuthRepository
 import com.emm.chambaaltoque.auth.domain.WorkerRegister
-import com.emm.chambaaltoque.core.shared.DispatcherProvider
+import com.emm.chambaaltoque.core.DispatcherProvider
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email

@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.shared.di
+package com.emm.chambaaltoque.auth
 
 import com.emm.chambaaltoque.auth.data.AuthRepositoryImpl
 import com.emm.chambaaltoque.auth.domain.AuthRepository
