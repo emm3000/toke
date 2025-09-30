@@ -24,6 +24,7 @@ class JobRepositoryImpl(private val client: SupabaseClient) : JobRepository {
     override val jobs: Flow<List<Job>> = source.selectAsFlow(JobDto::id)
         .map(::toDomain)
 
+
     private fun toDomain(jobs: List<JobDto>): List<Job> = jobs.map(::dtoToDomain)
 
     private fun dtoToDomain(job: JobDto): Job = Job(

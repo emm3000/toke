@@ -8,7 +8,6 @@ import com.emm.chambaaltoque.core.domain.JobStatus
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 class ApplicantHomeViewModel(
@@ -17,7 +16,6 @@ class ApplicantHomeViewModel(
 
     val state: StateFlow<ApplicantHomeState> = jobRepository.jobs
         .map(::mapToState)
-        .onStart { emit(ApplicantHomeState(isLoading = true)) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
