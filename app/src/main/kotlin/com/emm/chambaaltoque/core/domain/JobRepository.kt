@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.home.domain
+package com.emm.chambaaltoque.core.domain
 
 import com.emm.chambaaltoque.postjob.domain.CreateJob
 import kotlinx.coroutines.flow.Flow

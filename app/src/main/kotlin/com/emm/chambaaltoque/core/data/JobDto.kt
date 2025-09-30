@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.home.data
+package com.emm.chambaaltoque.core.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

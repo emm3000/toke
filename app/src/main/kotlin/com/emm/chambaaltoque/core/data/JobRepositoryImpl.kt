@@ -1,10 +1,10 @@
 @file:OptIn(SupabaseExperimental::class)
 
-package com.emm.chambaaltoque.home.data
+package com.emm.chambaaltoque.core.data
 
-import com.emm.chambaaltoque.home.domain.Job
-import com.emm.chambaaltoque.home.domain.JobRepository
-import com.emm.chambaaltoque.home.domain.JobStatus
+import com.emm.chambaaltoque.core.domain.Job
+import com.emm.chambaaltoque.core.domain.JobRepository
+import com.emm.chambaaltoque.core.domain.JobStatus
 import com.emm.chambaaltoque.postjob.data.CreateJobDto
 import com.emm.chambaaltoque.postjob.domain.CreateJob
 import io.github.jan.supabase.SupabaseClient
@@ -34,7 +34,7 @@ class JobRepositoryImpl(private val client: SupabaseClient) : JobRepository {
         title = job.title,
         description = job.description,
         budget = job.budget,
-        status = JobStatus.fromKey(job.status),
+        status = JobStatus.Companion.fromKey(job.status),
         createdAt = LocalDateTime.parse(job.createdAt)
     )
 

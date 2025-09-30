@@ -2,9 +2,9 @@ package com.emm.chambaaltoque.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.emm.chambaaltoque.home.domain.Job
-import com.emm.chambaaltoque.home.domain.JobRepository
-import com.emm.chambaaltoque.home.domain.JobStatus
+import com.emm.chambaaltoque.core.domain.Job
+import com.emm.chambaaltoque.core.domain.JobRepository
+import com.emm.chambaaltoque.core.domain.JobStatus
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

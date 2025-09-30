@@ -2,10 +2,10 @@ package com.emm.chambaaltoque.core.shared.di
 
 import android.content.Context
 import com.emm.chambaaltoque.R
+import com.emm.chambaaltoque.core.data.JobRepositoryImpl
+import com.emm.chambaaltoque.core.domain.JobRepository
 import com.emm.chambaaltoque.core.shared.DispatcherProvider
 import com.emm.chambaaltoque.core.shared.RealDispatcherProvider
-import com.emm.chambaaltoque.home.data.JobRepositoryImpl
-import com.emm.chambaaltoque.home.domain.JobRepository
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth

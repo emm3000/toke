@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.home.domain
+package com.emm.chambaaltoque.core.domain
 
 enum class JobStatus(val key: String) {
 
