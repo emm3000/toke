@@ -50,7 +50,11 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             LaunchedEffect(status) {
                 if (status is SessionStatus.Authenticated) {
-                    navController.navigate(ApplicantHomeRoute)
+                    navController.navigate(ApplicantHomeRoute) {
+                        popUpTo(WelcomeRoute) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
 
