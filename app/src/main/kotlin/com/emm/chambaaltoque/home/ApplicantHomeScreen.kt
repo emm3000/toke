@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -138,21 +139,17 @@ fun ApplicantHomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    OutlinedButton(onClick = onPublishClick, shape = RoundedCornerShape(12.dp)) {
-                        Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.size(6.dp))
-                        Text("Publicar")
-                    }
+
                     OutlinedButton(onClick = onOpenRatings, shape = RoundedCornerShape(12.dp)) {
                         Icon(Icons.Filled.Star, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.size(6.dp))
                         Text("Calificaciones")
                     }
-//                    OutlinedButton(onClick = { /* TODO: historial */ }, shape = RoundedCornerShape(12.dp)) {
-//                        Icon(Icons.Filled.History, contentDescription = null, modifier = Modifier.size(18.dp))
-//                        Spacer(Modifier.size(6.dp))
-//                        Text("Historial")
-//                    }
+                    OutlinedButton(onClick = { /* TODO: historial */ }, shape = RoundedCornerShape(12.dp)) {
+                        Icon(Icons.Filled.History, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.size(6.dp))
+                        Text("Historial")
+                    }
                 }
 
                 Spacer(Modifier.height(12.dp))
