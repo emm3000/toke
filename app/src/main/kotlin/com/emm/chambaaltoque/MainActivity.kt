@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
-import com.emm.chambaaltoque.core.navigation.AppNav
+import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.shared.navigation.AppNav
 
 class MainActivity : ComponentActivity() {
 

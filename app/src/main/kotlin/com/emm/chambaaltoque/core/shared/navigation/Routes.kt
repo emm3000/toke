@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.navigation
+package com.emm.chambaaltoque.core.shared.navigation
 
 object Routes {
     const val WELCOME = "welcome"

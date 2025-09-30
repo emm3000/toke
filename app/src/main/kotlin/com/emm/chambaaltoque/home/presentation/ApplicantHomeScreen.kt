@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
 
 private data class QuickJob(val id: String, val title: String, val status: String)
 

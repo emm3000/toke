@@ -44,7 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun WorkerRegisterFlow(

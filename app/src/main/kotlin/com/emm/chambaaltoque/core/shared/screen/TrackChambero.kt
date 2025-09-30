@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.screen
+package com.emm.chambaaltoque.core.shared.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -37,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun TrackChamberoScreen(

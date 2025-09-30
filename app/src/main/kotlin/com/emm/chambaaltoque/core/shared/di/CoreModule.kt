@@ -1,9 +1,9 @@
-package com.emm.chambaaltoque.core.di
+package com.emm.chambaaltoque.core.shared.di
 
 import android.content.Context
 import com.emm.chambaaltoque.R
-import com.emm.chambaaltoque.core.DispatcherProvider
-import com.emm.chambaaltoque.core.RealDispatcherProvider
+import com.emm.chambaaltoque.core.shared.DispatcherProvider
+import com.emm.chambaaltoque.core.shared.RealDispatcherProvider
 import com.emm.chambaaltoque.home.data.JobRepositoryImpl
 import com.emm.chambaaltoque.home.domain.JobRepository
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeViewModel

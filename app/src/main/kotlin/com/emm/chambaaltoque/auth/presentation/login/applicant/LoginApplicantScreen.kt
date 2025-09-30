@@ -50,7 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.emm.chambaaltoque.auth.presentation.ErrorDialog
-import com.emm.chambaaltoque.core.ui.theme.ChambaAlToqueTheme
+import com.emm.chambaaltoque.core.shared.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun LoginApplicantScreen(

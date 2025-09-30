@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.core.ui.theme
+package com.emm.chambaaltoque.core.shared.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
