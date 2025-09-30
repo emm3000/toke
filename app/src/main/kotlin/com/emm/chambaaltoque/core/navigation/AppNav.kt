@@ -7,10 +7,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantRoute
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScreen
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
+import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
+import com.emm.chambaaltoque.welcome.WelcomeRoute
 import com.emm.chambaaltoque.welcome.WelcomeScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -20,25 +23,25 @@ fun AppNav(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.WELCOME,
+        startDestination = WelcomeRoute,
         modifier = modifier,
     ) {
 
-        composable(Routes.WELCOME) {
+        composable<WelcomeRoute> {
             WelcomeScreen(
                 onNeedJobClick = {
-                    navController.navigate(Routes.REGISTER_APPLICANT)
+                    navController.navigate(ApplicationRegisterRoute)
                 },
                 onWantWorkClick = {
                     navController.navigate(Routes.VERIFY_IDENTITY)
                 },
                 onSignInClick = {
-                    navController.navigate(Routes.LOGIN)
+                    navController.navigate(LoginApplicantRoute)
                 }
             )
         }
 
-        composable(Routes.LOGIN) {
+        composable<LoginApplicantRoute> {
             val vm: LoginApplicantViewModel = koinViewModel()
 
             LaunchedEffect(vm.state.isSuccessful) {
@@ -57,14 +60,14 @@ fun AppNav(modifier: Modifier = Modifier) {
             Text("gaaa")
         }
 
-        composable(Routes.REGISTER_APPLICANT) {
+        composable<ApplicationRegisterRoute> {
 
             val vm: ApplicantRegisterViewModel = koinViewModel()
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    navController.navigate(Routes.LOGIN) {
-                        popUpTo(Routes.REGISTER_APPLICANT) {
+                    navController.navigate(LoginApplicantRoute) {
+                        popUpTo(ApplicationRegisterRoute) {
                             inclusive = true
                         }
                     }
