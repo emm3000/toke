@@ -2,11 +2,10 @@
 
 package com.emm.chambaaltoque.core.data
 
+import com.emm.chambaaltoque.core.domain.CreateJob
 import com.emm.chambaaltoque.core.domain.Job
 import com.emm.chambaaltoque.core.domain.JobRepository
 import com.emm.chambaaltoque.core.domain.JobStatus
-import com.emm.chambaaltoque.postjob.data.CreateJobDto
-import com.emm.chambaaltoque.postjob.domain.CreateJob
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.annotations.SupabaseExperimental
 import io.github.jan.supabase.postgrest.from

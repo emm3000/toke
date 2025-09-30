@@ -9,8 +9,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emm.chambaaltoque.auth.domain.AuthRepository
+import com.emm.chambaaltoque.core.domain.CreateJob
 import com.emm.chambaaltoque.core.domain.JobRepository
-import com.emm.chambaaltoque.postjob.domain.CreateJob
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce

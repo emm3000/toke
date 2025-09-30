@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.postjob.data
+package com.emm.chambaaltoque.core.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

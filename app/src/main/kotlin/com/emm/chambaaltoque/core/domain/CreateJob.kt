@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.postjob.domain
+package com.emm.chambaaltoque.core.domain
 
 data class CreateJob(
     val requesterId: String,
