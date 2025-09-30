@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.home
+package com.emm.chambaaltoque.home.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

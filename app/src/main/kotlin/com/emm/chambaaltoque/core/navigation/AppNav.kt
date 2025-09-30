@@ -18,8 +18,8 @@ import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantVie
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
-import com.emm.chambaaltoque.home.ApplicantHomeRoute
-import com.emm.chambaaltoque.home.ApplicantHomeScreen
+import com.emm.chambaaltoque.home.presentation.ApplicantHomeRoute
+import com.emm.chambaaltoque.home.presentation.ApplicantHomeScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobRoute
 import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel

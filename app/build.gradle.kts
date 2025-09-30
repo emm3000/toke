@@ -84,6 +84,7 @@ dependencies {
     implementation(platform(libs.bom))
     implementation(libs.postgrest.kt)
     implementation(libs.auth.kt)
+    implementation(libs.realtime.kt)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.android)

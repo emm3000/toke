@@ -9,8 +9,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emm.chambaaltoque.auth.domain.AuthRepository
+import com.emm.chambaaltoque.home.domain.JobRepository
 import com.emm.chambaaltoque.postjob.domain.CreateJob
-import com.emm.chambaaltoque.postjob.domain.JobRepository
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -63,7 +63,7 @@ class PostJobViewModel(
 
     private fun createJob(userId: String): CreateJob = CreateJob(
         requesterId = userId,
-        categoryId = "1fdb4be2-691e-4c00-bb95-1709e202990f",
+        categoryId = "123e4567-e89b-12d3-a456-426614174000",
         title = state.title,
         description = state.description,
         budget = state.budget,
