@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.auth.presentation
+package com.emm.chambaaltoque.core.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

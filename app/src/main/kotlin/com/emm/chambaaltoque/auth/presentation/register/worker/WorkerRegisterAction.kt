@@ -29,4 +29,6 @@ sealed interface WorkerRegisterAction {
     data class SetTermsAccepted(val isTermsAccepted: Boolean) : WorkerRegisterAction
 
     object Submit : WorkerRegisterAction
+
+    object DismissDialog : WorkerRegisterAction
 }

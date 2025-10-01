@@ -20,25 +20,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-data class WorkerRegisterState(
-    val fullName: String = "",
-    val dni: String = "",
-    val dniPhoto: Uri = Uri.EMPTY,
-    val selfie: Uri = Uri.EMPTY,
-    val birth: String = "",
-    val phone: String = "",
-    val email: String = "",
-    val password: String = "",
-    val city: String = "",
-    val district: String = "",
-    val skills: String = "",
-    val isTermsAccepted: Boolean = false,
-    val isValidFields: Boolean = false,
-    val isLoading: Boolean = false,
-    val isSuccessful: Boolean = false,
-    val error: String? = null,
-)
-
 class WorkerRegisterViewModel(
     private val authRepository: AuthRepository,
     private val uriOrchestrator: UriOrchestrator,
@@ -72,6 +53,7 @@ class WorkerRegisterViewModel(
             is WorkerRegisterAction.SetSkills -> state = state.copy(skills = action.skills)
             is WorkerRegisterAction.SetTermsAccepted -> state = state.copy(isTermsAccepted = action.isTermsAccepted)
             WorkerRegisterAction.Submit -> register()
+            WorkerRegisterAction.DismissDialog -> state = state.copy(error = null)
         }
     }
 
@@ -99,18 +81,16 @@ class WorkerRegisterViewModel(
         }
     }
 
-    private fun validFields(): Boolean {
-        return state.dniPhoto != Uri.EMPTY
-                && state.selfie != Uri.EMPTY
-                && state.fullName.isNotBlank()
-                && state.dni.isNotBlank()
-                && state.birth.isNotBlank()
-                && state.phone.isNotBlank()
-                && state.email.isNotBlank()
-                && state.password.isNotBlank()
-                && state.city.isNotBlank()
-                && state.district.isNotBlank()
-                && state.skills.isNotBlank()
-                && state.isTermsAccepted
-    }
+    private fun validFields(): Boolean = state.dniPhoto != Uri.EMPTY
+            && state.selfie != Uri.EMPTY
+            && state.fullName.isNotBlank()
+            && state.dni.isNotBlank()
+            && state.birth.isNotBlank()
+            && state.phone.isNotBlank()
+            && state.email.isNotBlank()
+            && state.password.isNotBlank()
+            && state.city.isNotBlank()
+            && state.district.isNotBlank()
+            && state.skills.isNotBlank()
+            && state.isTermsAccepted
 }

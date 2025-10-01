@@ -49,9 +49,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.auth.presentation.ErrorDialog
 import com.emm.chambaaltoque.auth.presentation.login.LoginAction
 import com.emm.chambaaltoque.auth.presentation.login.LoginState
+import com.emm.chambaaltoque.core.presentation.ErrorDialog
 import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
