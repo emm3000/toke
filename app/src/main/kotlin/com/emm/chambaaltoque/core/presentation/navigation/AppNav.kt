@@ -18,11 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.emm.chambaaltoque.auth.domain.UserType
+import com.emm.chambaaltoque.auth.presentation.login.LoginRoute
+import com.emm.chambaaltoque.auth.presentation.login.LoginScreen
 import com.emm.chambaaltoque.auth.presentation.login.LoginViewModel
-import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantRoute
-import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScreen
-import com.emm.chambaaltoque.auth.presentation.login.worker.LoginWorkerRoute
-import com.emm.chambaaltoque.auth.presentation.login.worker.LoginWorkerScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
@@ -35,6 +33,9 @@ import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeRoute
 import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeScreen
 import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeState
 import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeViewModel
+import com.emm.chambaaltoque.home.presentation.worker.WorkerHomeRoute
+import com.emm.chambaaltoque.home.presentation.worker.WorkerHomeScreen
+import com.emm.chambaaltoque.home.presentation.worker.WorkerHomeViewModel
 import com.emm.chambaaltoque.postjob.presentation.PostJobRoute
 import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
@@ -87,7 +88,7 @@ fun AppNav(modifier: Modifier = Modifier) {
                         navController.navigate(WorkerRegisterRoute)
                     },
                     onSignInClick = {
-                        navController.navigate(LoginApplicantRoute)
+                        navController.navigate(LoginRoute)
                     }
                 )
             }
@@ -130,7 +131,7 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    navController.navigate(LoginWorkerRoute) {
+                    navController.navigate(LoginRoute) {
                         popUpTo(WorkerRegisterRoute) {
                             inclusive = true
                         }
@@ -153,35 +154,29 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        composable<LoginWorkerRoute> {
-
+        composable<LoginRoute> {
             val vm: LoginViewModel = koinViewModel()
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    when(vm.state.userType) {
-                        UserType.Worker -> navController.navigate(ApplicantHomeRoute)
-                        UserType.Applicant -> navController.navigate(ApplicantHomeRoute)
+                    when (vm.state.userType) {
+                        UserType.Worker -> navController.navigate(WorkerHomeRoute) {
+                            popUpTo(LoginRoute) {
+                                inclusive = true
+                            }
+                        }
+
+                        UserType.Applicant -> navController.navigate(ApplicantHomeRoute) {
+                            popUpTo(LoginRoute) {
+                                inclusive = true
+                            }
+                        }
+
                     }
                 }
             }
 
-            LoginWorkerScreen(
-                state = vm.state,
-                onAction = vm::onAction,
-            )
-        }
-
-        composable<LoginApplicantRoute> {
-            val vm: LoginViewModel = koinViewModel()
-
-            LaunchedEffect(vm.state.isSuccessful) {
-                if (vm.state.isSuccessful) {
-                    navController.navigate(ApplicantHomeRoute)
-                }
-            }
-
-            LoginApplicantScreen(
+            LoginScreen(
                 state = vm.state,
                 onAction = vm::onAction
             )
@@ -196,6 +191,16 @@ fun AppNav(modifier: Modifier = Modifier) {
                 onPublishClick = {
                     navController.navigate(PostJobRoute)
                 },
+                state = state,
+            )
+        }
+
+        composable<WorkerHomeRoute> {
+            val vm: WorkerHomeViewModel = koinViewModel()
+
+            val state by vm.state.collectAsStateWithLifecycle()
+
+            WorkerHomeScreen(
                 state = state,
             )
         }
@@ -222,7 +227,7 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    navController.navigate(LoginApplicantRoute) {
+                    navController.navigate(LoginRoute) {
                         popUpTo(ApplicationRegisterRoute) {
                             inclusive = true
                         }

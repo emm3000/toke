@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.auth.presentation.login.applicant
+package com.emm.chambaaltoque.auth.presentation.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -49,13 +49,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emm.chambaaltoque.auth.presentation.login.LoginAction
-import com.emm.chambaaltoque.auth.presentation.login.LoginState
 import com.emm.chambaaltoque.core.presentation.ErrorDialog
 import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
-fun LoginApplicantScreen(
+fun LoginScreen(
     modifier: Modifier = Modifier,
     state: LoginState = LoginState(),
     onAction: (LoginAction) -> Unit = {},
@@ -267,9 +265,9 @@ fun LoginApplicantScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginApplicantLightPreview() {
+private fun LoginLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        LoginApplicantScreen(
+        LoginScreen(
             state = LoginState(isLoading = true)
         )
     }
@@ -277,9 +275,9 @@ private fun LoginApplicantLightPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginApplicantDarkPreview() {
+private fun LoginDarkPreview() {
     ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        LoginApplicantScreen()
+        LoginScreen()
     }
 }
 

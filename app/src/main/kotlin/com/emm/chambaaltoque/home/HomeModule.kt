@@ -3,6 +3,7 @@ package com.emm.chambaaltoque.home
 import com.emm.chambaaltoque.core.data.JobRepositoryImpl
 import com.emm.chambaaltoque.core.domain.JobRepository
 import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeViewModel
+import com.emm.chambaaltoque.home.presentation.worker.WorkerHomeViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -13,4 +14,5 @@ val homeModule = module {
     factoryOf(::JobRepositoryImpl) bind JobRepository::class
 
     viewModelOf(::ApplicantHomeViewModel)
+    viewModelOf(::WorkerHomeViewModel)
 }
