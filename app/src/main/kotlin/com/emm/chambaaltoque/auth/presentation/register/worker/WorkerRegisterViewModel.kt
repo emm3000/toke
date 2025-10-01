@@ -1,14 +1,23 @@
+@file:OptIn(FlowPreview::class)
+
 package com.emm.chambaaltoque.auth.presentation.register.worker
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emm.chambaaltoque.auth.domain.AuthRepository
+import com.emm.chambaaltoque.auth.domain.Photo
 import com.emm.chambaaltoque.auth.domain.WorkerRegister
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 data class WorkerRegisterState(
@@ -32,10 +41,21 @@ data class WorkerRegisterState(
 
 class WorkerRegisterViewModel(
     private val authRepository: AuthRepository,
+    private val uriOrchestrator: UriOrchestrator,
 ) : ViewModel() {
 
     var state by mutableStateOf(WorkerRegisterState())
         private set
+
+    init {
+        snapshotFlow { state }
+            .debounce(240L)
+            .distinctUntilChanged()
+            .onEach {
+                state = state.copy(isValidFields = validFields())
+            }
+            .launchIn(viewModelScope)
+    }
 
     fun onAction(action: WorkerRegisterAction) {
         when (action) {
@@ -58,25 +78,39 @@ class WorkerRegisterViewModel(
     private fun register() = viewModelScope.launch {
         try {
             state = state.copy(isLoading = true)
-//            WorkerRegister(
-//                fullName = state.fullName,
-//                dni = state.dni,
-//                dniPhoto = state.dniPhoto,
-//                selfie = state.selfie,
-//                birth = state.birth,
-//                phone = state.phone,
-//                email = state.email,
-//                password = state.password,
-//                city = state.city,
-//                district = state.district,
-//                skills = state.skills,
-//                isTermsAccepted = state.isTermsAccepted,
-//            )
-//            authRepository.register()
+            val workerRegister = WorkerRegister(
+                fullName = state.fullName,
+                dni = state.dni,
+                dniPhoto = Photo(uriOrchestrator.byteArray(state.dniPhoto)),
+                selfie = Photo(uriOrchestrator.byteArray(state.selfie)),
+                birth = state.birth,
+                phone = state.phone,
+                email = state.email,
+                password = state.password,
+                city = state.city,
+                district = state.district,
+                skills = state.skills,
+            )
+            authRepository.register(workerRegister)
             state = state.copy(isSuccessful = true)
         } catch (throwable: Throwable) {
             FirebaseCrashlytics.getInstance().recordException(throwable)
             state = state.copy(isLoading = false, error = throwable.message)
         }
+    }
+
+    private fun validFields(): Boolean {
+        return state.dniPhoto != Uri.EMPTY
+                && state.selfie != Uri.EMPTY
+                && state.fullName.isNotBlank()
+                && state.dni.isNotBlank()
+                && state.birth.isNotBlank()
+                && state.phone.isNotBlank()
+                && state.email.isNotBlank()
+                && state.password.isNotBlank()
+                && state.city.isNotBlank()
+                && state.district.isNotBlank()
+                && state.skills.isNotBlank()
+                && state.isTermsAccepted
     }
 }

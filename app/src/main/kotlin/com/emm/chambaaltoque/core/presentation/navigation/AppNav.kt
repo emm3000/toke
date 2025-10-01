@@ -1,7 +1,6 @@
 package com.emm.chambaaltoque.core.presentation.navigation
 
 import android.Manifest
-import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,11 +23,11 @@ import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantVie
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
+import com.emm.chambaaltoque.auth.presentation.register.worker.UriOrchestrator
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterAction
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterFlow
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterRoute
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterViewModel
-import com.emm.chambaaltoque.auth.presentation.register.worker.createTempFileUri
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeRoute
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeScreen
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeState
@@ -94,8 +92,7 @@ fun AppNav(modifier: Modifier = Modifier) {
 
         composable<WorkerRegisterRoute> {
             val vm: WorkerRegisterViewModel = koinViewModel()
-
-            val ctx: Context = LocalContext.current
+            val uriOrchestrator = koinInject<UriOrchestrator>()
 
             var tmpUri: Uri? = remember { null }
 
@@ -104,14 +101,22 @@ fun AppNav(modifier: Modifier = Modifier) {
                 onResult = {}
             )
 
-            val cameraLauncher = rememberLauncherForActivityResult(
+            val cameraDniLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.TakePicture(),
                 onResult = { capturedSuccessfully ->
                     if (capturedSuccessfully) {
                         val uri = tmpUri ?: return@rememberLauncherForActivityResult
                         vm.onAction(WorkerRegisterAction.SetDniPhoto(uri))
-                    } else {
-                        vm.onAction(WorkerRegisterAction.SetDniPhoto(Uri.EMPTY))
+                    }
+                }
+            )
+
+            val cameraSelfieLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.TakePicture(),
+                onResult = { capturedSuccessfully ->
+                    if (capturedSuccessfully) {
+                        val uri = tmpUri ?: return@rememberLauncherForActivityResult
+                        vm.onAction(WorkerRegisterAction.SetSelfie(uri))
                     }
                 }
             )
@@ -123,12 +128,14 @@ fun AppNav(modifier: Modifier = Modifier) {
             WorkerRegisterFlow(
                 state = vm.state,
                 onAction = vm::onAction,
+                onBack = { navController.popBackStack() },
                 onPickDniPhoto = {
-                    tmpUri = createTempFileUri(ctx)
-                    cameraLauncher.launch(tmpUri)
+                    tmpUri = uriOrchestrator.createTempFileUri()
+                    cameraDniLauncher.launch(tmpUri!!)
                 },
                 onPickSelfie = {
-//                    cameraLauncher.launch()
+                    tmpUri = uriOrchestrator.createTempFileUri()
+                    cameraSelfieLauncher.launch(tmpUri)
                 },
             )
         }
