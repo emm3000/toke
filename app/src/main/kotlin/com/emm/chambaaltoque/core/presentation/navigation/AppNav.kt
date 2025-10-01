@@ -1,13 +1,20 @@
 package com.emm.chambaaltoque.core.presentation.navigation
 
+import android.Manifest
+import android.content.Context
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,6 +25,11 @@ import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantVie
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
+import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterAction
+import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterFlow
+import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterRoute
+import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterViewModel
+import com.emm.chambaaltoque.auth.presentation.register.worker.createTempFileUri
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeRoute
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeScreen
 import com.emm.chambaaltoque.home.presentation.ApplicantHomeState
@@ -71,13 +83,54 @@ fun AppNav(modifier: Modifier = Modifier) {
                         navController.navigate(ApplicationRegisterRoute)
                     },
                     onWantWorkClick = {
-                        navController.navigate(Routes.VERIFY_IDENTITY)
+                        navController.navigate(WorkerRegisterRoute)
                     },
                     onSignInClick = {
                         navController.navigate(LoginApplicantRoute)
                     }
                 )
             }
+        }
+
+        composable<WorkerRegisterRoute> {
+            val vm: WorkerRegisterViewModel = koinViewModel()
+
+            val ctx: Context = LocalContext.current
+
+            var tmpUri: Uri? = remember { null }
+
+            val permissionLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+                onResult = {}
+            )
+
+            val cameraLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.TakePicture(),
+                onResult = { capturedSuccessfully ->
+                    if (capturedSuccessfully) {
+                        val uri = tmpUri ?: return@rememberLauncherForActivityResult
+                        vm.onAction(WorkerRegisterAction.SetDniPhoto(uri))
+                    } else {
+                        vm.onAction(WorkerRegisterAction.SetDniPhoto(Uri.EMPTY))
+                    }
+                }
+            )
+
+            LaunchedEffect(Unit) {
+                permissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+
+            WorkerRegisterFlow(
+                state = vm.state,
+                onAction = vm::onAction,
+                onPickDniPhoto = {
+                    tmpUri = createTempFileUri(ctx)
+                    cameraLauncher.launch(tmpUri)
+                },
+                onPickSelfie = {
+//                    cameraLauncher.launch()
+                },
+            )
         }
 
         composable<LoginApplicantRoute> {

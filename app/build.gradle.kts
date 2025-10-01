@@ -97,4 +97,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.firebase.analytics)
+
+    implementation(libs.coil.compose)
 }
