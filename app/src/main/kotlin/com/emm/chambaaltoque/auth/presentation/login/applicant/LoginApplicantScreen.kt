@@ -50,13 +50,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.emm.chambaaltoque.auth.presentation.ErrorDialog
+import com.emm.chambaaltoque.auth.presentation.login.LoginAction
+import com.emm.chambaaltoque.auth.presentation.login.LoginState
 import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun LoginApplicantScreen(
     modifier: Modifier = Modifier,
-    state: LoginApplicantState = LoginApplicantState(),
-    onAction: (LoginApplicantAction) -> Unit = {},
+    state: LoginState = LoginState(),
+    onAction: (LoginAction) -> Unit = {},
 ) {
 
     val showPassword = remember { mutableStateOf(false) }
@@ -113,7 +115,7 @@ fun LoginApplicantScreen(
             // Email
             OutlinedTextField(
                 value = state.email,
-                onValueChange = { onAction(LoginApplicantAction.EmailChanged(it)) },
+                onValueChange = { onAction(LoginAction.EmailChanged(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -133,7 +135,7 @@ fun LoginApplicantScreen(
             // Password
             OutlinedTextField(
                 value = state.password,
-                onValueChange = { onAction(LoginApplicantAction.PasswordChanged(it)) },
+                onValueChange = { onAction(LoginAction.PasswordChanged(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -165,7 +167,7 @@ fun LoginApplicantScreen(
             Button(
                 onClick = {
                     keyboardController?.hide()
-                    onAction(LoginApplicantAction.Login)
+                    onAction(LoginAction.Login)
                 },
                 enabled = state.isValidFields && !state.isLoading,
                 modifier = Modifier.fillMaxWidth(),
@@ -256,7 +258,7 @@ fun LoginApplicantScreen(
 
         if (state.error != null) {
             ErrorDialog(
-                onDismissRequest = { onAction(LoginApplicantAction.DismissError) },
+                onDismissRequest = { onAction(LoginAction.DismissError) },
                 error = state.error,
             )
         }
@@ -268,7 +270,7 @@ fun LoginApplicantScreen(
 private fun LoginApplicantLightPreview() {
     ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
         LoginApplicantScreen(
-            state = LoginApplicantState(isLoading = true)
+            state = LoginState(isLoading = true)
         )
     }
 }

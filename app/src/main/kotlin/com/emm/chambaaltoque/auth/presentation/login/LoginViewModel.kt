@@ -1,6 +1,6 @@
 @file:OptIn(FlowPreview::class)
 
-package com.emm.chambaaltoque.auth.presentation.login.applicant
+package com.emm.chambaaltoque.auth.presentation.login
 
 import android.util.Patterns
 import androidx.compose.runtime.getValue
@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class LoginApplicantViewModel(private val repository: AuthRepository) : ViewModel() {
+class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
 
-    var state by mutableStateOf(LoginApplicantState())
+    var state by mutableStateOf(LoginState())
         private set
 
     init {
@@ -39,12 +39,12 @@ class LoginApplicantViewModel(private val repository: AuthRepository) : ViewMode
         return matches && passwordMatches
     }
 
-    fun onAction(event: LoginApplicantAction) {
+    fun onAction(event: LoginAction) {
         when (event) {
-            is LoginApplicantAction.EmailChanged -> state = state.copy(email = event.email)
-            is LoginApplicantAction.PasswordChanged -> state = state.copy(password = event.password)
-            is LoginApplicantAction.Login -> login()
-            LoginApplicantAction.DismissError -> state = state.copy(error = null)
+            is LoginAction.EmailChanged -> state = state.copy(email = event.email)
+            is LoginAction.PasswordChanged -> state = state.copy(password = event.password)
+            is LoginAction.Login -> login()
+            LoginAction.DismissError -> state = state.copy(error = null)
         }
     }
 

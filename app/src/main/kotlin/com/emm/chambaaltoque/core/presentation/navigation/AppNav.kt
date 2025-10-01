@@ -17,9 +17,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.emm.chambaaltoque.auth.presentation.login.LoginViewModel
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantRoute
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScreen
-import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantViewModel
+import com.emm.chambaaltoque.auth.presentation.login.worker.LoginWorkerRoute
+import com.emm.chambaaltoque.auth.presentation.login.worker.LoginWorkerScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
@@ -125,6 +127,16 @@ fun AppNav(modifier: Modifier = Modifier) {
                 permissionLauncher.launch(Manifest.permission.CAMERA)
             }
 
+            LaunchedEffect(vm.state.isSuccessful) {
+                if (vm.state.isSuccessful) {
+                    navController.navigate(LoginWorkerRoute) {
+                        popUpTo(WorkerRegisterRoute) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+
             WorkerRegisterFlow(
                 state = vm.state,
                 onAction = vm::onAction,
@@ -140,8 +152,24 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
+        composable<LoginWorkerRoute> {
+
+            val vm: LoginViewModel = koinViewModel()
+
+            LaunchedEffect(vm.state.isSuccessful) {
+                if (vm.state.isSuccessful) {
+                    navController.navigate(ApplicantHomeRoute)
+                }
+            }
+
+            LoginWorkerScreen(
+                state = vm.state,
+                onAction = vm::onAction,
+            )
+        }
+
         composable<LoginApplicantRoute> {
-            val vm: LoginApplicantViewModel = koinViewModel()
+            val vm: LoginViewModel = koinViewModel()
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {

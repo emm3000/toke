@@ -2,7 +2,7 @@ package com.emm.chambaaltoque.auth
 
 import com.emm.chambaaltoque.auth.data.AuthRepositoryImpl
 import com.emm.chambaaltoque.auth.domain.AuthRepository
-import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantViewModel
+import com.emm.chambaaltoque.auth.presentation.login.LoginViewModel
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
 import com.emm.chambaaltoque.auth.presentation.register.worker.UriOrchestrator
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterViewModel
@@ -16,7 +16,7 @@ val authModule = module {
     factoryOf(::AuthRepositoryImpl) bind AuthRepository::class
 
     viewModelOf(::ApplicantRegisterViewModel)
-    viewModelOf(::LoginApplicantViewModel)
+    viewModelOf(::LoginViewModel)
     viewModelOf(::WorkerRegisterViewModel)
 
     factoryOf(::UriOrchestrator)
