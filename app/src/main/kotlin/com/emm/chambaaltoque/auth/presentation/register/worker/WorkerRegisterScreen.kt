@@ -2,10 +2,12 @@ package com.emm.chambaaltoque.auth.presentation.register.worker
 
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +29,6 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -155,33 +157,70 @@ private fun SinglePageForm(
 
         Spacer(Modifier.height(8.dp))
 
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(
-                onClick = onPickDniPhoto,
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // DNI placeholder
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(1f)
+                    .clickable { onPickDniPhoto() },
+                shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                shape = RoundedCornerShape(12.dp)
+                color = MaterialTheme.colorScheme.surface
             ) {
-                Icon(Icons.Filled.Image, contentDescription = null)
-                Spacer(Modifier.size(8.dp))
-                val hasDniPhoto = state.dniPhoto != Uri.EMPTY
-                Text(if (hasDniPhoto) "DNI agregado" else "Foto del DNI")
+                if (state.dniPhoto != Uri.EMPTY) {
+                    AsyncImage(
+                        model = state.dniPhoto,
+                        contentDescription = "DNI",
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Filled.Image, contentDescription = null)
+                        Spacer(Modifier.height(6.dp))
+                        Text("Foto DNI", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
             }
-            if (state.dniPhoto != Uri.EMPTY) {
-                AsyncImage(
-                    model = state.dniPhoto,
-                    contentDescription = null,
-                    modifier = Modifier.size(100.dp)
-                )
-            }
-            OutlinedButton(
-                onClick = onPickSelfie,
+
+            // Selfie placeholder
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(1f)
+                    .clickable { onPickSelfie() },
+                shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                shape = RoundedCornerShape(12.dp)
+                color = MaterialTheme.colorScheme.surface
             ) {
-                Icon(Icons.Filled.Image, contentDescription = null)
-                Spacer(Modifier.size(8.dp))
-                val hasSelfie = state.selfie != android.net.Uri.EMPTY
-                Text(if (hasSelfie) "Selfie agregada" else "Selfie")
+                if (state.selfie != Uri.EMPTY) {
+                    AsyncImage(
+                        model = state.selfie,
+                        contentDescription = "Selfie",
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Filled.Image, contentDescription = null)
+                        Spacer(Modifier.height(6.dp))
+                        Text("Selfie", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
             }
         }
 
