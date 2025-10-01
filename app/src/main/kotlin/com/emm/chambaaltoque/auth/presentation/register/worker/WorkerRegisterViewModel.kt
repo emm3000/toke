@@ -73,7 +73,7 @@ class WorkerRegisterViewModel(
                 district = state.district,
                 skills = state.skills,
             )
-            authRepository.register(workerRegister)
+            authRepository.registerWorker(workerRegister)
             state = state.copy(isSuccessful = true)
         } catch (throwable: Throwable) {
             FirebaseCrashlytics.getInstance().recordException(throwable)

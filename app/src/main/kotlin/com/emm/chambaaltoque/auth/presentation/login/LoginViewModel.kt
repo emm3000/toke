@@ -10,6 +10,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emm.chambaaltoque.auth.domain.AuthRepository
+import com.emm.chambaaltoque.auth.domain.UserType
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -51,10 +52,11 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     private fun login() = viewModelScope.launch {
         try {
             state = state.copy(isLoading = true)
-            repository.login(email = state.email, password = state.password)
-            state = state.copy(isSuccessful = true)
+            val userType: UserType = repository.login(email = state.email, password = state.password)
+            state = state.copy(isSuccessful = true, userType = userType)
         } catch (throwable: Throwable) {
             FirebaseCrashlytics.getInstance().recordException(throwable)
+            repository.logout()
             state = state.copy(error = throwable.message)
         }
     }

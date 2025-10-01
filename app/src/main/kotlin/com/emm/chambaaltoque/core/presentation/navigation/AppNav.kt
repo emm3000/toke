@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.emm.chambaaltoque.auth.domain.UserType
 import com.emm.chambaaltoque.auth.presentation.login.LoginViewModel
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantRoute
 import com.emm.chambaaltoque.auth.presentation.login.applicant.LoginApplicantScreen
@@ -158,7 +159,10 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
-                    navController.navigate(ApplicantHomeRoute)
+                    when(vm.state.userType) {
+                        UserType.Worker -> navController.navigate(ApplicantHomeRoute)
+                        UserType.Applicant -> navController.navigate(ApplicantHomeRoute)
+                    }
                 }
             }
 

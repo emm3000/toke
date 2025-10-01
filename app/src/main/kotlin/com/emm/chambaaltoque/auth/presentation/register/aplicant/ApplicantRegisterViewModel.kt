@@ -67,7 +67,7 @@ class ApplicantRegisterViewModel(private val repository: AuthRepository) : ViewM
         state = state.copy(isLoading = true)
         viewModelScope.launch {
             try {
-                repository.registerWorker(
+                repository.registerApplicant(
                     phone = state.phone,
                     name = state.fullName,
                     email = state.email,

@@ -1,54 +1,53 @@
 package com.emm.chambaaltoque.auth.data
 
 import com.emm.chambaaltoque.auth.domain.AuthRepository
+import com.emm.chambaaltoque.auth.domain.UserType
 import com.emm.chambaaltoque.auth.domain.WorkerRegister
-import com.emm.chambaaltoque.core.DispatcherProvider
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 
 class AuthRepositoryImpl(
-    dispatcherProvider: DispatcherProvider,
     private val client: SupabaseClient,
-) : AuthRepository, DispatcherProvider by dispatcherProvider {
+) : AuthRepository {
 
-    override suspend fun login(email: String, password: String) = withContext(io) {
+    override suspend fun login(email: String, password: String) = withContext(Dispatchers.IO) {
         client.auth.signInWith(Email) {
             this.email = email
             this.password = password
         }
+
+        val metadata: JsonObject = client.auth.currentUserOrNull()?.userMetadata ?: throw IllegalStateException("User not logged in")
+
+        val content: String = metadata["type"]?.jsonPrimitive?.content.orEmpty()
+        return@withContext UserType.valueOf(content)
     }
 
-    override suspend fun register(workerRegister: WorkerRegister) = withContext(io) {
+    override suspend fun registerWorker(workerRegister: WorkerRegister) = withContext(Dispatchers.IO) {
         client.auth.signInWith(Email) {
             this.email = workerRegister.email
             this.password = workerRegister.password
-//            data = buildJsonObject {
-//                put("name", workerRegister.name)
-//                put("dni", workerRegister.dni)
-//                put("birth", workerRegister.birth)
-//                put("dni_path", workerRegister.dniPath)
-//                put("selfie_path", workerRegister.selfiePath)
-//                put("phone", workerRegister.phone)
-//                put("otp", workerRegister.otp)
-//                put("city", workerRegister.city)
-//                put("district", workerRegister.district)
-//                put("skills", workerRegister.skills)
-//                put("email", workerRegister.email)
-//                put("password", workerRegister.password)
-//                put("phone", workerRegister.phone)
-//                put("otp", workerRegister.otp)
-//                put("city", workerRegister.city)
-//                put("district", workerRegister.district)
-//                put("skills", workerRegister.skills)
-//            }
+            data = buildJsonObject {
+                put("full", workerRegister.fullName)
+                put("dni", workerRegister.dni)
+                put("birth", workerRegister.birth)
+                put("phone", workerRegister.phone)
+                put("city", workerRegister.city)
+                put("district", workerRegister.district)
+                put("skills", workerRegister.skills)
+                put("email", workerRegister.email)
+                put("type", UserType.Worker.name)
+            }
         }
     }
 
-    override suspend fun registerWorker(phone: String, name: String, email: String) {
+    override suspend fun registerApplicant(phone: String, name: String, email: String) {
         client.auth.signUpWith(Email) {
             this.email = email
             this.password = phone
@@ -56,11 +55,16 @@ class AuthRepositoryImpl(
                 put("name", name)
                 put("phone", phone)
                 put("email", email)
+                put("type", UserType.Applicant.name)
             }
         }
     }
 
     override suspend fun currentUserId(): String {
         return client.auth.currentUserOrNull()?.id ?: throw IllegalStateException("User not logged in")
+    }
+
+    override suspend fun logout() = withContext(Dispatchers.IO) {
+        client.auth.signOut()
     }
 }
