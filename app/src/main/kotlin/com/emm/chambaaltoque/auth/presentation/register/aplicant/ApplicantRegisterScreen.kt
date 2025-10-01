@@ -49,7 +49,7 @@ import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 fun ApplicantRegisterScreen(
     modifier: Modifier = Modifier,
     state: ApplicantRegisterState = ApplicantRegisterState(),
-    onAction: (ApplicationRegisterAction) -> Unit = {},
+    onAction: (ApplicantRegisterAction) -> Unit = {},
 ) {
 
     Surface(
@@ -77,7 +77,7 @@ fun ApplicantRegisterScreen(
 
             OutlinedTextField(
                 value = state.phone,
-                onValueChange = { onAction(ApplicationRegisterAction.PhoneChange(it)) },
+                onValueChange = { onAction(ApplicantRegisterAction.PhoneChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -115,7 +115,7 @@ fun ApplicantRegisterScreen(
             // Nombre completo
             OutlinedTextField(
                 value = state.fullName,
-                onValueChange = { onAction(ApplicationRegisterAction.FullNameChange(it)) },
+                onValueChange = { onAction(ApplicantRegisterAction.FullNameChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 label = { Text("Nombre completo") },
@@ -126,7 +126,7 @@ fun ApplicantRegisterScreen(
 
             OutlinedTextField(
                 value = state.email,
-                onValueChange = { onAction(ApplicationRegisterAction.EmailChange(it)) },
+                onValueChange = { onAction(ApplicantRegisterAction.EmailChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 label = { Text("Email (opcional)") },
@@ -186,7 +186,7 @@ fun ApplicantRegisterScreen(
             ) {
                 Checkbox(
                     checked = state.acceptedTerms,
-                    onCheckedChange = { onAction(ApplicationRegisterAction.AcceptedTermsChange(it)) },
+                    onCheckedChange = { onAction(ApplicantRegisterAction.AcceptedTermsChange(it)) },
                     colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary)
                 )
                 Text(
@@ -209,7 +209,7 @@ fun ApplicantRegisterScreen(
 
             Button(
                 onClick = {
-                    onAction(ApplicationRegisterAction.Register)
+                    onAction(ApplicantRegisterAction.Register)
                 },
                 enabled = state.isFieldValid && !state.isLoading,
                 modifier = Modifier.fillMaxWidth(),
@@ -242,7 +242,7 @@ fun ApplicantRegisterScreen(
 
         if (state.error != null) {
             ErrorDialog(
-                onDismissRequest = { onAction(ApplicationRegisterAction.DismissDialog) },
+                onDismissRequest = { onAction(ApplicantRegisterAction.DismissDialog) },
                 error = state.error,
             )
         }

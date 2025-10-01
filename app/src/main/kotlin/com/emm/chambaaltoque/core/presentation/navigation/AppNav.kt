@@ -4,14 +4,10 @@ import android.Manifest
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -21,9 +17,9 @@ import com.emm.chambaaltoque.auth.domain.UserType
 import com.emm.chambaaltoque.auth.presentation.login.LoginRoute
 import com.emm.chambaaltoque.auth.presentation.login.LoginScreen
 import com.emm.chambaaltoque.auth.presentation.login.LoginViewModel
+import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterRoute
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterScreen
 import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicantRegisterViewModel
-import com.emm.chambaaltoque.auth.presentation.register.aplicant.ApplicationRegisterRoute
 import com.emm.chambaaltoque.auth.presentation.register.worker.UriOrchestrator
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterAction
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterFlow
@@ -41,9 +37,6 @@ import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
 import com.emm.chambaaltoque.welcome.WelcomeRoute
 import com.emm.chambaaltoque.welcome.WelcomeScreen
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.status.SessionStatus
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -58,40 +51,17 @@ fun AppNav(modifier: Modifier = Modifier) {
     ) {
 
         composable<WelcomeRoute> {
-            val supabaseClient: SupabaseClient = koinInject<SupabaseClient>()
-
-            val status: SessionStatus by supabaseClient.auth.sessionStatus.collectAsStateWithLifecycle()
-
-            LaunchedEffect(status) {
-                if (status is SessionStatus.Authenticated) {
-                    navController.navigate(ApplicantHomeRoute) {
-                        popUpTo(WelcomeRoute) {
-                            inclusive = true
-                        }
-                    }
+            WelcomeScreen(
+                onNeedJobClick = {
+                    navController.navigate(ApplicantRegisterRoute)
+                },
+                onWantWorkClick = {
+                    navController.navigate(WorkerRegisterRoute)
+                },
+                onSignInClick = {
+                    navController.navigate(LoginRoute)
                 }
-            }
-
-            if (status is SessionStatus.Initializing) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                WelcomeScreen(
-                    onNeedJobClick = {
-                        navController.navigate(ApplicationRegisterRoute)
-                    },
-                    onWantWorkClick = {
-                        navController.navigate(WorkerRegisterRoute)
-                    },
-                    onSignInClick = {
-                        navController.navigate(LoginRoute)
-                    }
-                )
-            }
+            )
         }
 
         composable<WorkerRegisterRoute> {
@@ -221,14 +191,14 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        composable<ApplicationRegisterRoute> {
+        composable<ApplicantRegisterRoute> {
 
             val vm: ApplicantRegisterViewModel = koinViewModel()
 
             LaunchedEffect(vm.state.isSuccessful) {
                 if (vm.state.isSuccessful) {
                     navController.navigate(LoginRoute) {
-                        popUpTo(ApplicationRegisterRoute) {
+                        popUpTo(ApplicantRegisterRoute) {
                             inclusive = true
                         }
                     }

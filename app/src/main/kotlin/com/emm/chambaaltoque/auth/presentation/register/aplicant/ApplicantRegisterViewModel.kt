@@ -32,14 +32,14 @@ class ApplicantRegisterViewModel(private val repository: AuthRepository) : ViewM
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: ApplicationRegisterAction) {
+    fun onAction(action: ApplicantRegisterAction) {
         when (action) {
-            is ApplicationRegisterAction.PhoneChange -> onPhoneChange(action.phone)
-            is ApplicationRegisterAction.FullNameChange -> onFullNameChange(action.fullName)
-            is ApplicationRegisterAction.EmailChange -> onEmailChange(action.email)
-            is ApplicationRegisterAction.AcceptedTermsChange -> onAcceptedTermsChange(action.acceptedTerms)
-            ApplicationRegisterAction.Register -> onRegister()
-            ApplicationRegisterAction.DismissDialog -> clearError()
+            is ApplicantRegisterAction.PhoneChange -> onPhoneChange(action.phone)
+            is ApplicantRegisterAction.FullNameChange -> onFullNameChange(action.fullName)
+            is ApplicantRegisterAction.EmailChange -> onEmailChange(action.email)
+            is ApplicantRegisterAction.AcceptedTermsChange -> onAcceptedTermsChange(action.acceptedTerms)
+            ApplicantRegisterAction.Register -> onRegister()
+            ApplicantRegisterAction.DismissDialog -> clearError()
         }
     }
 
