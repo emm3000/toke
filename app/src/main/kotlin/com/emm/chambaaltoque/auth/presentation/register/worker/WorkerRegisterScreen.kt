@@ -1,5 +1,7 @@
-package com.emm.chambaaltoque.auth.presentation.login.worker
+package com.emm.chambaaltoque.auth.presentation.register.worker
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,19 +18,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,20 +43,21 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.emm.chambaaltoque.core.presentation.ui.theme.ChambaAlToqueTheme
 
 @Composable
 fun WorkerRegisterFlow(
     modifier: Modifier = Modifier,
-    onComplete: () -> Unit = {},
     onBack: () -> Unit = {},
     onPickDniPhoto: () -> Unit = {},
     onPickSelfie: () -> Unit = {},
-    onRequestOtp: (phone: String) -> Unit = {},
+    state: WorkerRegisterState = WorkerRegisterState(),
+    onAction: (WorkerRegisterAction) -> Unit = {},
 ) {
-    val step = remember { mutableIntStateOf(1) } // 0..3
+
+    val step = remember { mutableIntStateOf(0) }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -66,7 +68,6 @@ fun WorkerRegisterFlow(
                 .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
-            // Top bar minimal
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -86,25 +87,25 @@ fun WorkerRegisterFlow(
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                 )
 
-                Spacer(Modifier.size(48.dp)) // balancear el AppBar
+                Spacer(Modifier.size(48.dp))
             }
 
             Spacer(Modifier.height(8.dp))
 
             LinearProgressIndicator(
-                progress = (step.value + 1) / 4f,
+                progress = { (step.intValue + 1) / 4f },
                 modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.primary,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                color = MaterialTheme.colorScheme.primary
+                strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             )
 
             Spacer(Modifier.height(12.dp))
 
-            when (step.value) {
-                0 -> StepPersonal(onNext = { step.value = 1 }, onPickDniPhoto = onPickDniPhoto, onPickSelfie = onPickSelfie)
-                1 -> StepContact(onNext = { step.value = 2 }, onRequestOtp = onRequestOtp)
-                2 -> StepExtra(onNext = { step.value = 3 })
-                3 -> StepAccept(onComplete = onComplete)
+            when (step.intValue) {
+                0 -> StepPersonal(onNext = { step.intValue = 1 }, onPickDniPhoto = onPickDniPhoto, onPickSelfie = onPickSelfie)
+                1 -> StepContact(onNext = { step.intValue = 2 })
+                2 -> StepExtra(onNext = { step.intValue = 3 })
             }
         }
     }
@@ -208,12 +209,10 @@ private fun StepPersonal(
 @Composable
 private fun StepContact(
     onNext: () -> Unit,
-    onRequestOtp: (String) -> Unit,
 ) {
     val phone = remember { mutableStateOf("") }
     val otp = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
-    val requested = remember { mutableStateOf(false) }
 
     val phoneValid = phone.value.length in 7..12 && phone.value.all { it.isDigit() }
     val otpValid = otp.value.length in 4..8 && otp.value.all { it.isDigit() }
@@ -242,29 +241,6 @@ private fun StepContact(
         )
 
         Spacer(Modifier.height(8.dp))
-
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = otp.value,
-                onValueChange = { otp.value = it.filter { ch -> ch.isDigit() }.take(6) },
-                modifier = Modifier.weight(1f),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                label = { Text("Código OTP") },
-                shape = RoundedCornerShape(12.dp)
-            )
-            OutlinedButton(
-                onClick = {
-                    onRequestOtp(phone.value)
-                    requested.value = true
-                },
-                enabled = phoneValid,
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                shape = RoundedCornerShape(12.dp)
-            ) { Text(if (requested.value) "Reenviar" else "Enviar código") }
-        }
-
-        Spacer(Modifier.height(12.dp))
 
         OutlinedTextField(
             value = email.value,
@@ -340,44 +316,13 @@ private fun StepExtra(
         )
 
         Spacer(Modifier.height(20.dp))
-        Button(
-            onClick = onNext,
-            enabled = valid,
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            )
-        ) { Text("Continuar", style = MaterialTheme.typography.titleMedium) }
-    }
-}
-
-@Composable
-private fun StepAccept(
-    onComplete: () -> Unit,
-) {
-    val accepted = remember { mutableStateOf(false) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        Text(
-            text = "Aceptación",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
-        )
-        Spacer(Modifier.height(12.dp))
-        Divider()
-        Spacer(Modifier.height(12.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = accepted.value,
-                onCheckedChange = { accepted.value = it },
+                checked = false,
+                onCheckedChange = { },
                 colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary)
             )
             Text(
@@ -394,37 +339,46 @@ private fun StepAccept(
             )
         }
 
-        Spacer(Modifier.height(24.dp))
-
+        Spacer(Modifier.height(20.dp))
         Button(
-            onClick = onComplete,
-            enabled = accepted.value,
+            onClick = onNext,
+            enabled = valid,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             )
-        ) {
-            Icon(Icons.Filled.Check, contentDescription = null)
-            Spacer(Modifier.size(8.dp))
-            Text("Completar Registro", style = MaterialTheme.typography.titleMedium)
+        ) { Text("Continuar", style = MaterialTheme.typography.titleMedium) }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun StepPersonalPreview() {
+    ChambaAlToqueTheme {
+        Surface {
+            StepPersonal(onNext = {}, onPickDniPhoto = {}, onPickSelfie = {})
         }
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
-private fun ChamberoRegisterFlowLightPreview() {
-    ChambaAlToqueTheme(darkTheme = false, dynamicColor = false) {
-        WorkerRegisterFlow()
+private fun StepContactPreview() {
+    ChambaAlToqueTheme {
+        Surface {
+            StepContact(onNext = {})
+        }
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
-private fun ChamberoRegisterFlowDarkPreview() {
-    ChambaAlToqueTheme(darkTheme = true, dynamicColor = false) {
-        WorkerRegisterFlow()
+private fun StepExtraPreview() {
+    ChambaAlToqueTheme {
+        Surface {
+            StepExtra(onNext = {})
+        }
     }
 }

@@ -26,25 +26,25 @@ class AuthRepositoryImpl(
         client.auth.signInWith(Email) {
             this.email = workerRegister.email
             this.password = workerRegister.password
-            data = buildJsonObject {
-                put("name", workerRegister.name)
-                put("dni", workerRegister.dni)
-                put("birth", workerRegister.birth)
-                put("dni_path", workerRegister.dniPath)
-                put("selfie_path", workerRegister.selfiePath)
-                put("phone", workerRegister.phone)
-                put("otp", workerRegister.otp)
-                put("city", workerRegister.city)
-                put("district", workerRegister.district)
-                put("skills", workerRegister.skills)
-                put("email", workerRegister.email)
-                put("password", workerRegister.password)
-                put("phone", workerRegister.phone)
-                put("otp", workerRegister.otp)
-                put("city", workerRegister.city)
-                put("district", workerRegister.district)
-                put("skills", workerRegister.skills)
-            }
+//            data = buildJsonObject {
+//                put("name", workerRegister.name)
+//                put("dni", workerRegister.dni)
+//                put("birth", workerRegister.birth)
+//                put("dni_path", workerRegister.dniPath)
+//                put("selfie_path", workerRegister.selfiePath)
+//                put("phone", workerRegister.phone)
+//                put("otp", workerRegister.otp)
+//                put("city", workerRegister.city)
+//                put("district", workerRegister.district)
+//                put("skills", workerRegister.skills)
+//                put("email", workerRegister.email)
+//                put("password", workerRegister.password)
+//                put("phone", workerRegister.phone)
+//                put("otp", workerRegister.otp)
+//                put("city", workerRegister.city)
+//                put("district", workerRegister.district)
+//                put("skills", workerRegister.skills)
+//            }
         }
     }
 
