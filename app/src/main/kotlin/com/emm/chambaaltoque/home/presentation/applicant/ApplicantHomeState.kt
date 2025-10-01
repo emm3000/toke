@@ -1,4 +1,4 @@
-package com.emm.chambaaltoque.home.presentation
+package com.emm.chambaaltoque.home.presentation.applicant
 
 import com.emm.chambaaltoque.core.domain.Job
 

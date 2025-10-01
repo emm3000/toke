@@ -31,10 +31,10 @@ import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterAct
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterFlow
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterRoute
 import com.emm.chambaaltoque.auth.presentation.register.worker.WorkerRegisterViewModel
-import com.emm.chambaaltoque.home.presentation.ApplicantHomeRoute
-import com.emm.chambaaltoque.home.presentation.ApplicantHomeScreen
-import com.emm.chambaaltoque.home.presentation.ApplicantHomeState
-import com.emm.chambaaltoque.home.presentation.ApplicantHomeViewModel
+import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeRoute
+import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeScreen
+import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeState
+import com.emm.chambaaltoque.home.presentation.applicant.ApplicantHomeViewModel
 import com.emm.chambaaltoque.postjob.presentation.PostJobRoute
 import com.emm.chambaaltoque.postjob.presentation.PostJobScreen
 import com.emm.chambaaltoque.postjob.presentation.PostJobViewModel
