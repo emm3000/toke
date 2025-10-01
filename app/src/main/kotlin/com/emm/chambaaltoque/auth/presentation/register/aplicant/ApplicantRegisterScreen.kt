@@ -84,35 +84,9 @@ fun ApplicantRegisterScreen(
                 label = { Text("Número de celular") },
                 shape = RoundedCornerShape(12.dp)
             )
-            Spacer(Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedTextField(
-                    value = "otp.value",
-                    onValueChange = { },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    label = { Text("Código OTP") },
-                    shape = RoundedCornerShape(12.dp)
-                )
-                OutlinedButton(
-                    onClick = {
-                    },
-                    enabled = false,
-                    shape = RoundedCornerShape(12.dp),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-                ) {
-                    Text("Enviar código")
-                }
-            }
 
             Spacer(Modifier.height(16.dp))
 
-            // Nombre completo
             OutlinedTextField(
                 value = state.fullName,
                 onValueChange = { onAction(ApplicantRegisterAction.FullNameChange(it)) },
